@@ -278,8 +278,8 @@ Expected: todos los comandos PASS y `packages/shared/dist/index.js` existe.
 - Verde: el mismo comando pasó con 46 pruebas, incluyendo las indicadas y casos de forma inválida para las cuatro acciones.
 - Refactor: revisión de responsabilidades y duplicación; no fue necesario cambiar comportamiento después del verde.
 - Verificación: `npm run typecheck -w @mercado/shared`, `npm run lint` y `npm run build -w @mercado/shared` terminaron con código 0.
-- El checkpoint de revisión y commit manual sigue pendiente. No se inició Task 2.
-- [ ] **Step 8: Detenerse para revisión y commit manual**
+- Checkpoint completado: el usuario confirmó el commit manual `c1f9c7b` antes de autorizar Task 2.
+- [x] **Step 8: Detenerse para revisión y commit manual**
 
 Entregar resumen y evidencia. Mensaje sugerido: `chore: scaffold monorepo and shared contracts`. No ejecutar comandos Git de escritura.
 
@@ -298,7 +298,7 @@ Entregar resumen y evidencia. Mensaje sugerido: `chore: scaffold monorepo and sh
 - Consumes: `GameState`, `Tile`, `Tide`, `Good` y `GAME_RULES` de `@mercado/shared`.
 - Produces: `createSeededRandom(seed: number): RandomSource`, `createBoard(): readonly Tile[]` y `createGame(input: { id: string; playerName: string; seed: number }): GameState`.
 
-- [ ] **Step 1: Escribir pruebas fallidas de reproducibilidad y mapa**
+- [x] **Step 1: Escribir pruebas fallidas de reproducibilidad y mapa**
 
 ```ts
 import { describe, expect, it } from 'vitest';
@@ -323,13 +323,13 @@ describe('createGame', () => {
 });
 ```
 
-- [ ] **Step 2: Ejecutar la prueba para comprobar que falla**
+- [x] **Step 2: Ejecutar la prueba para comprobar que falla**
 
 Run: `npm run test -w @mercado/backend -- --run tests/create-game.test.ts`
 
 Expected: FAIL porque los módulos de dominio todavía no existen.
 
-- [ ] **Step 3: Implementar el generador pseudoaleatorio**
+- [x] **Step 3: Implementar el generador pseudoaleatorio**
 
 ```ts
 export interface RandomSource {
@@ -354,7 +354,7 @@ export function createSeededRandom(seed: number): RandomSource {
 }
 ```
 
-- [ ] **Step 4: Implementar el fixture del tablero**
+- [x] **Step 4: Implementar el fixture del tablero**
 
 Usar exactamente este mapa, donde `M` es mercado, `F/S/P` son puertos, `R` arrecife, `I` isla y `W` mar:
 
@@ -372,24 +372,35 @@ export const TILE_LAYOUT = [
 
 `createBoard` convierte las 49 letras en `Tile` y asigna `FISH`, `SPICE` y `PEARL` a sus puertos.
 
-- [ ] **Step 5: Implementar `createGame`**
+- [x] **Step 5: Implementar `createGame`**
 
 Crear ambos jugadores, precios base `{ FISH: 3, SPICE: 5, PEARL: 7 }`, existencias sembradas entre 2 y 4, ciclo de marea con desplazamiento `seed % 4`, log inicial y todos los campos definidos en `GameState`. Normalizar el nombre vacío a `Capitana` y limitarlo a 30 caracteres.
 
-- [ ] **Step 6: Añadir pruebas de rangos y diferencias entre semillas**
+- [x] **Step 6: Añadir pruebas de rangos y diferencias entre semillas**
 
 Comprobar que toda existencia está entre 2 y 4 y que las semillas 7 y 8 difieren en marea, existencias o ambas. No afirmar que dos semillas arbitrarias siempre difieren en todos los campos.
 
-- [ ] **Step 7: Crear fixtures compartidos de backend**
+- [x] **Step 7: Crear fixtures compartidos de backend**
 
 `tests/fixtures.ts` exporta `gameAtPlayerStart()`, `gameWith(overrides: Partial<GameState>)`, `aiAtMarketWithCargo(cargo: readonly Good[])` y `aiAtSupplyPort(good: Good)`. Todos parten de `createGame({ id: 'test-game', playerName: 'Marina', seed: 1209 })`, copian estructuras anidadas en vez de mutarlas y permiten a las tasks 3–5 referirse a un estado válido.
 
-- [ ] **Step 8: Ejecutar verificación de la task**
+- [x] **Step 8: Ejecutar verificación de la task**
 
 Run: `npm run test -w @mercado/backend -- --run tests/create-game.test.ts && npm run typecheck -w @mercado/backend && npm run lint`
 
 Expected: PASS.
 
+**Registro de ejecución — 2026-09-13 (Task 2):**
+
+- Base verificada: commit manual de Task 1 `c1f9c7b`, confirmado por el usuario; 46 pruebas de shared PASS con Node 24.19.0.
+- Rojo inicial: `npm run test -w @mercado/backend -- --run tests/create-game.test.ts` terminó con código 1 porque faltaba `create-game.js`; implementación inicial: 19 pruebas PASS.
+- Pruebas de rango y variabilidad: semillas 0, 1, 7, 8, 1209 y 4294967295; existencias enteras entre 2 y 4; semillas 7 y 8 con estado variable distinto.
+- Ajuste mínimo diagnosticado y explicado: `%` devuelve restos negativos en JavaScript. Dos pruebas de semillas -1 y -5 recibieron una marea indefinida; se normalizó el índice con `((seed % 4) + 4) % 4`. Se conserva el ciclo aprobado para todas las semillas enteras; 29 pruebas PASS después de la corrección.
+- Rojo de fixtures: fallo por ausencia de `fixtures.js`; verde después de implementarlos: 35 pruebas PASS.
+- La suite comprueba el mapa exacto, conectividad y rutas alternativas en marea alta, secuencia xorshift32, estado inicial, nombres y copias independientes. Refactor: revisión de duplicación y responsabilidades sin añadir comportamiento.
+- Verificación requerida: tests de backend (35 PASS), `npm run typecheck -w @mercado/backend` y `npm run lint`, todos con código 0. Revisión de código sin hallazgos importantes.
+- `.gitignore` conserva el cambio previo del usuario; la spec permanece intacta. No se ejecutaron comandos Git de escritura ni se inició Task 3.
+- Pendiente: revisión humana y commit manual de Task 2.
 - [ ] **Step 9: Detenerse para revisión y commit manual**
 
 Mensaje sugerido: `feat: generate seeded game state and board`.
