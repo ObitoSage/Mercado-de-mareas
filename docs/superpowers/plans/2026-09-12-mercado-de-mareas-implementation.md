@@ -559,9 +559,9 @@ Expected: PASS.
 - Fallo de verificación diagnosticado: ESLint detectó un cast `as Tide` innecesario en el test. Se reemplazó por una inferencia literal y se repitió toda la verificación.
 - Verificación final requerida con Node 24.19.0: 25 pruebas enfocadas PASS, 85 pruebas de backend PASS, typecheck PASS y lint PASS; todos los comandos terminaron con código 0.
 - No se ejecutaron comandos Git de escritura ni se inició Task 5.
-- Pendiente: revisión humana y commit manual de Task 4.
+- Revisión y commit manual de Task 4 confirmados por el usuario: `e5b3e2c`.
 
-- [ ] **Step 7: Detenerse para revisión y commit manual**
+- [x] **Step 7: Detenerse para revisión y commit manual**
 
 Mensaje sugerido: `feat: process tides rounds market and results`.
 
@@ -580,7 +580,7 @@ Mensaje sugerido: `feat: process tides rounds market and results`.
 - Consumes: `validateAction`, `applyAction`, `advanceAfterAiTurn` y `createSeededRandom`.
 - Produces: `scoreAction(game, action): number`, `chooseAiAction(game): GameAction` y `dispatchPlayerAction(game, action): RuleResult`.
 
-- [ ] **Step 1: Escribir pruebas fallidas de prioridades de IA**
+- [x] **Step 1: Escribir pruebas fallidas de prioridades de IA**
 
 ```ts
 it('sells the most valuable cargo when already at market', () => {
@@ -596,33 +596,47 @@ it('loads when a profitable supply is under the ship', () => {
 
 Añadir casos de movimiento hacia objetivo, evitar casilla inválida, desempate reproducible y `END_TURN` cuando no hay movimiento posible.
 
-- [ ] **Step 2: Ejecutar para confirmar el fallo**
+- [x] **Step 2: Ejecutar para confirmar el fallo**
 
 Run: `npm run test -w @mercado/backend -- --run tests/strategy.test.ts`
 
 Expected: FAIL porque la estrategia no existe.
 
-- [ ] **Step 3: Implementar puntuación explicable**
+- [x] **Step 3: Implementar puntuación explicable**
 
 Usar una suma estable: venta inmediata `100 + precio`; carga `70 + precio esperado`; movimiento `50 - distancia al mejor objetivo`; bloqueo útil `+3`; riesgo de quedar sobre arrecife antes de marea no alta `-20`; `END_TURN` `-100`. Enumerar solo acciones aceptadas por `validateAction`.
 
-- [ ] **Step 4: Implementar elección y desempate sembrado**
+- [x] **Step 4: Implementar elección y desempate sembrado**
 
 Ordenar por puntuación descendente, reunir empates y elegir con `createSeededRandom(game.seed + game.round * 1_000 + game.actionPoints)`. La función devuelve una acción, no muta el estado y no conoce Express.
 
-- [ ] **Step 5: Escribir pruebas fallidas del orquestador**
+- [x] **Step 5: Escribir pruebas fallidas del orquestador**
 
 Comprobar que una primera acción del jugador deja 1 punto y no ejecuta IA; la segunda cambia a IA, ejecuta hasta dos acciones, avanza la ronda y devuelve todos los eventos. Comprobar que un rechazo no ejecuta IA.
 
-- [ ] **Step 6: Implementar `dispatchPlayerAction`**
+- [x] **Step 6: Implementar `dispatchPlayerAction`**
 
 Aplicar la acción mediante `applyAction`. Si quedan puntos, devolver. Si no, cambiar a `RESOLVING_AI`, elegir/aplicar hasta dos acciones válidas o `END_TURN`, llamar a `advanceAfterAiTurn` y concatenar eventos sin superar el límite de 50.
 
-- [ ] **Step 7: Ejecutar pruebas de IA y motor**
+- [x] **Step 7: Ejecutar pruebas de IA y motor**
 
 Run: `npm run test -w @mercado/backend -- --run tests/strategy.test.ts tests/game-engine.test.ts && npm run test -w @mercado/backend -- --run && npm run typecheck -w @mercado/backend && npm run lint`
 
 Expected: PASS.
+
+**Registro de ejecución — 2026-09-14 (Task 5):**
+
+- Base verificada: commit manual de Task 4 `e5b3e2c`; árbol limpio antes de iniciar. Spec aprobada conservada sin cambios.
+- Rojo de estrategia: `npm run test -w @mercado/backend -- --run tests/strategy.test.ts` terminó con código 1 por ausencia de `score.js`; todavía no existían los módulos de IA.
+- Verde de estrategia: 21 pruebas PASS para precios, carga, objetivos, navegación válida, desempates reproducibles, bloqueo útil, riesgo de arrecife y fin de turno.
+- Rojo del orquestador: `npm run test -w @mercado/backend -- --run tests/game-engine.test.ts` terminó con código 1 por ausencia de `game-engine.js`.
+- Verde del orquestador: 8 pruebas PASS, incluyendo primera/segunda acción humana, rechazo, fin anticipado, ventas con demanda en ronda 10, bitácora llena y diez rondas reproducibles con ganancias del rival.
+- Detalle de la heurística: objetivos por monedas esperadas divididas entre acciones de viaje, carga y venta; distancias BFS sometidas a `validateAction`, con marea y ocupación actuales. Los pesos de acciones son los aprobados; el bloqueo solo bonifica el mejor movimiento propio y el riesgo penaliza terminar el turno de marea alta sobre arrecife.
+- Revisión de refactor: se mantienen helpers puros de navegación y puntuación; no fue necesario modificar reglas, contratos ni dependencias existentes.
+- Fallo de verificación diagnosticado: ESLint rechazó un matcher anidado por asignación de `any`; se cambió a `toMatchObject` y se repitieron las cuatro verificaciones requeridas.
+- Verificación final con Node 24.19.0: 29 pruebas enfocadas PASS, 114 pruebas de backend PASS, typecheck de backend PASS y lint raíz PASS; todos con código 0.
+- Revisión independiente de código: sin hallazgos accionables. Su simulación adicional no pudo ejecutarse por `EPERM` del sandbox; las verificaciones requeridas sí se ejecutaron en el proceso principal.
+- No se ejecutaron comandos Git de escritura ni se inició Task 6. Pendiente: revisión humana y commit manual de Task 5.
 
 - [ ] **Step 8: Detenerse para revisión y commit manual**
 
