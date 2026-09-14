@@ -2,6 +2,7 @@ import { GAME_RULES } from '@mercado/shared';
 import type { ActorId, GameAction, GameEvent, GameState, Good, Position, Tile } from '@mercado/shared';
 import { ruleError } from './errors.js';
 import type { RuleErrorCode } from './errors.js';
+import { getSalePrice } from './market.js';
 
 export type RuleResult =
   | Readonly<{ ok: true; game: GameState; events: readonly GameEvent[] }>
@@ -26,13 +27,6 @@ function samePosition(a: Position, b: Position): boolean {
 
 function tileAt(game: GameState, position: Position): Tile | undefined {
   return game.board.find((tile) => samePosition(tile.position, position));
-}
-
-function salePrice(game: GameState, good: Good): number {
-  const tideBonus =
-    (game.tide === 'LOW' && good === 'FISH') || (game.tide === 'HIGH' && good === 'PEARL') ? 2
-      : ((game.tide === 'RISING' || game.tide === 'FALLING') && good === 'SPICE' ? 1 : 0);
-  return Math.max(1, game.prices[good] + tideBonus - game.demand[good]);
 }
 
 const GOOD_NAMES: Readonly<Record<Good, string>> = {
@@ -136,7 +130,7 @@ export function applyAction(game: GameState, actor: ActorId, action: GameAction)
   if (action.type === 'SELL') {
     const { good } = action.payload;
     const cargoIndex = player.cargo.indexOf(good);
-    const coins = salePrice(game, good);
+    const coins = getSalePrice(game, good);
     const event: GameEvent = {
       type: 'SOLD', round: game.round, actor, good, coins,
       message: `${player.name} vendió una unidad de ${GOOD_NAMES[good]} por ${coins} monedas.`,

@@ -480,9 +480,9 @@ Expected: PASS.
 - Fallo de verificación diagnosticado: ESLint detectó tres casts literales innecesarios en el test. Se eliminaron sin cambiar producción y se repitió toda la verificación.
 - Verificación final requerida: 25 pruebas enfocadas PASS, 60 pruebas de backend PASS, typecheck PASS y lint PASS, todos con código 0 usando Node 24.19.0.
 - No se ejecutaron comandos Git de escritura ni se inició Task 4.
-- Pendiente: revisión humana y commit manual de Task 3.
+- Checkpoint completado: el usuario confirmó el commit manual `522f14f` antes de autorizar Task 4.
 
-- [ ] **Step 8: Detenerse para revisión y commit manual**
+- [x] **Step 8: Detenerse para revisión y commit manual**
 
 Mensaje sugerido: `feat: validate and apply player actions`.
 
@@ -499,7 +499,7 @@ Mensaje sugerido: `feat: validate and apply player actions`.
 - Consumes: `GameState`, `RandomSource`.
 - Produces: `getSalePrice(game, good)`, `advanceAfterAiTurn(game)` y `finishGame(game)`.
 
-- [ ] **Step 1: Escribir pruebas fallidas de precios**
+- [x] **Step 1: Escribir pruebas fallidas de precios**
 
 ```ts
 it.each([
@@ -514,17 +514,17 @@ it.each([
 
 Añadir prueba del mínimo 1 después de penalizaciones repetidas.
 
-- [ ] **Step 2: Escribir pruebas fallidas del cambio de ronda**
+- [x] **Step 2: Escribir pruebas fallidas del cambio de ronda**
 
 Comprobar reinicio a 2 puntos, avance del ciclo de marea, reinicio de demanda, reposición determinista y cambio a `FINISHED` después del turno de IA en ronda 10.
 
-- [ ] **Step 3: Ejecutar para confirmar el fallo**
+- [x] **Step 3: Ejecutar para confirmar el fallo**
 
 Run: `npm run test -w @mercado/backend -- --run tests/turns.test.ts`
 
 Expected: FAIL por módulos inexistentes.
 
-- [ ] **Step 4: Implementar cálculo de precios y avance de ronda**
+- [x] **Step 4: Implementar cálculo de precios y avance de ronda**
 
 ```ts
 const TIDES = ['LOW', 'RISING', 'HIGH', 'FALLING'] as const;
@@ -539,15 +539,27 @@ const TIDE_BONUS = {
 
 `advanceAfterAiTurn` termina la partida si `round === 10`; de lo contrario incrementa ronda, avanza la marea, reinicia demanda y crea `createSeededRandom(game.seed + game.round * 101)` para escoger de forma reproducible el puerto que repone una unidad. Devuelve `PLAYER_TURN` con 2 puntos.
 
-- [ ] **Step 5: Implementar resultado exacto**
+- [x] **Step 5: Implementar resultado exacto**
 
 `finishGame` compara únicamente `players.PLAYER.coins` y `players.AI.coins`, crea `PLAYER_WIN`, `AI_WIN` o `DRAW` y añade un evento `GAME_FINISHED`.
 
-- [ ] **Step 6: Ejecutar verificación de la task**
+- [x] **Step 6: Ejecutar verificación de la task**
 
 Run: `npm run test -w @mercado/backend -- --run tests/turns.test.ts && npm run test -w @mercado/backend -- --run && npm run typecheck -w @mercado/backend && npm run lint`
 
 Expected: PASS.
+
+**Registro de ejecución — 2026-09-14 (Task 4):**
+
+- Base verificada: commit manual de Task 3 `522f14f`; el árbol estaba limpio antes de iniciar.
+- Rojo: `npm run test -w @mercado/backend -- --run tests/turns.test.ts` terminó con código 1 porque faltaban `market.js` y `turns.js`.
+- Verde: 25 pruebas enfocadas PASS para precios, ciclo de mareas, reinicio de demanda y puntos, reposición sembrada, final y límite del log.
+- Refactor dentro de la task: `rules.ts` consume `getSalePrice`, evitando dos implementaciones del mismo precio sin cambiar las reglas de venta; sus 25 pruebas permanecieron verdes.
+- Ajuste mínimo del contrato: como `GameEvent` no tiene variante para una reposición omitida, el evento `TIDE_CHANGED` registra en su mensaje que no fue necesaria cuando todos los puertos están llenos. No se modificó el contrato compartido.
+- Fallo de verificación diagnosticado: ESLint detectó un cast `as Tide` innecesario en el test. Se reemplazó por una inferencia literal y se repitió toda la verificación.
+- Verificación final requerida con Node 24.19.0: 25 pruebas enfocadas PASS, 85 pruebas de backend PASS, typecheck PASS y lint PASS; todos los comandos terminaron con código 0.
+- No se ejecutaron comandos Git de escritura ni se inició Task 5.
+- Pendiente: revisión humana y commit manual de Task 4.
 
 - [ ] **Step 7: Detenerse para revisión y commit manual**
 
