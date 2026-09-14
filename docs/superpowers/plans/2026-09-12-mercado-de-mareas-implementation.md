@@ -636,9 +636,9 @@ Expected: PASS.
 - Fallo de verificación diagnosticado: ESLint rechazó un matcher anidado por asignación de `any`; se cambió a `toMatchObject` y se repitieron las cuatro verificaciones requeridas.
 - Verificación final con Node 24.19.0: 29 pruebas enfocadas PASS, 114 pruebas de backend PASS, typecheck de backend PASS y lint raíz PASS; todos con código 0.
 - Revisión independiente de código: sin hallazgos accionables. Su simulación adicional no pudo ejecutarse por `EPERM` del sandbox; las verificaciones requeridas sí se ejecutaron en el proceso principal.
-- No se ejecutaron comandos Git de escritura ni se inició Task 6. Pendiente: revisión humana y commit manual de Task 5.
+- No se ejecutaron comandos Git de escritura ni se inició Task 6 en ese ciclo. Revisión y commit manual de Task 5 confirmados por el usuario: `f88fa51`.
 
-- [ ] **Step 8: Detenerse para revisión y commit manual**
+- [x] **Step 8: Detenerse para revisión y commit manual**
 
 Mensaje sugerido: `feat: add backend rival strategy and game engine`.
 
@@ -658,7 +658,7 @@ Mensaje sugerido: `feat: add backend rival strategy and game engine`.
 - Consumes: `createGame`, `dispatchPlayerAction`, `GameState`, `GameAction`, `isGameAction`.
 - Produces: `GameStore`, `createGameStore()`, `createApp(options?: { store?: GameStore })` y rutas REST bajo `/api`.
 
-- [ ] **Step 1: Escribir prueba fallida del store**
+- [x] **Step 1: Escribir prueba fallida del store**
 
 ```ts
 it('creates and retrieves independent games', () => {
@@ -669,11 +669,11 @@ it('creates and retrieves independent games', () => {
 });
 ```
 
-- [ ] **Step 2: Implementar `GameStore`**
+- [x] **Step 2: Implementar `GameStore`**
 
 Usar un `Map<string, GameState>` privado. `create` usa `crypto.randomUUID()`, `get` devuelve el estado o `undefined`, y `save` reemplaza el valor por id. No exportar el `Map` ni añadir persistencia.
 
-- [ ] **Step 3: Escribir pruebas HTTP fallidas**
+- [x] **Step 3: Escribir pruebas HTTP fallidas**
 
 ```ts
 it('creates, reads and advances a game through JSON', async () => {
@@ -694,17 +694,17 @@ it('creates, reads and advances a game through JSON', async () => {
 
 Añadir casos de nombre inválido `400`, acción mal formada `400`, id ausente `404`, acción incompatible `409` y `/api/health` `200`.
 
-- [ ] **Step 4: Ejecutar para comprobar el fallo**
+- [x] **Step 4: Ejecutar para comprobar el fallo**
 
 Run: `npm run test -w @mercado/backend -- --run tests/api.test.ts`
 
 Expected: FAIL porque `createApp` todavía no existe.
 
-- [ ] **Step 5: Implementar parser de solicitudes**
+- [x] **Step 5: Implementar parser de solicitudes**
 
 `parseCreateGameBody` acepta objeto, `playerName?: string` y `seed?: integer`; limita el nombre a 30 caracteres. `parseActionBody` delega la forma en `isGameAction`. Ambos devuelven un resultado discriminado y nunca confían en casts directos de `req.body`.
 
-- [ ] **Step 6: Implementar rutas y códigos HTTP**
+- [x] **Step 6: Implementar rutas y códigos HTTP**
 
 ```ts
 router.post('/games', createGameHandler);
@@ -715,7 +715,7 @@ router.get('/health', healthHandler);
 
 La acción exitosa guarda el nuevo estado y responde `{ game, newEvents }`. Los errores usan `{ error: { code, message }, game? }`; el middleware final transforma fallos inesperados a `500 INTERNAL_ERROR` sin stack.
 
-- [ ] **Step 7: Exponer commit en health para verificar Render**
+- [x] **Step 7: Exponer commit en health para verificar Render**
 
 La respuesta debe ser:
 
@@ -726,11 +726,25 @@ res.json({
 });
 ```
 
-- [ ] **Step 8: Ejecutar verificación de API**
+- [x] **Step 8: Ejecutar verificación de API**
 
 Run: `npm run test -w @mercado/backend -- --run tests/game-store.test.ts tests/api.test.ts && npm run test -w @mercado/backend -- --run && npm run typecheck -w @mercado/backend && npm run lint`
 
 Expected: PASS.
+
+**Registro de ejecución — 2026-09-14 (Task 6):**
+
+- Base verificada: commit manual de Task 5 `f88fa51`; árbol limpio antes de iniciar. Spec aprobada conservada sin cambios.
+- Rojo del store: `npm run test -w @mercado/backend -- --run tests/game-store.test.ts` terminó con código 1 por ausencia de `game-store.js`; verde posterior: 7 pruebas PASS.
+- Rojo HTTP: `npm run test -w @mercado/backend -- --run tests/api.test.ts` terminó con código 1 por ausencia de `app.js`; verde inicial: 33 pruebas PASS con Express, Supertest y motor reales.
+- Implementación: Map privado por store, UUID y semilla generados en backend, parsers de entrada `unknown`, cuatro rutas REST, persistencia del estado resuelto, errores JSON y health con `RENDER_GIT_COMMIT` o `local`.
+- Hallazgo de revisión resuelto mediante TDD: tres pruebas recibieron 500 en vez de 400 para cuerpo excesivo, charset y codificación no admitidos. Se clasificaron los errores conocidos de Express como entrada inválida; verde posterior: 36 pruebas HTTP PASS.
+- Ajuste mínimo de tooling diagnosticado y explicado antes de aplicarlo: las pruebas superaron el límite de 8 archivos del proyecto auxiliar de ESLint. Se creó `apps/backend/tests/tsconfig.json` y se retiraron las pruebas backend de `allowDefaultProject` en `eslint.config.js`, conservando el análisis con tipos.
+- La comprobación directa del nuevo proyecto detectó una inferencia amplia del actor en `tests/rules.test.ts` y el tipo `DOMHighResTimeStamp` requerido por Vitest/tinybench. Se añadió `as const` a esa tabla y la biblioteca DOM únicamente a la configuración de pruebas; no se cambiaron reglas ni contratos. También se eliminaron dos matchers anidados que introducían `any`.
+- Revisión de refactor: responsabilidades separadas entre store, parsers, rutas y app; sin dependencias nuevas ni cambios en el motor.
+- Verificación final con Node 24.19.0: 43 pruebas enfocadas PASS, 157 pruebas de backend PASS, typecheck de backend PASS y lint raíz PASS, todos con código 0. Comprobación adicional `node node_modules/typescript/bin/tsc -p apps/backend/tests/tsconfig.json --noEmit`: PASS.
+- Revisión independiente final: sin hallazgos pendientes tras corregir el error de clasificación HTTP.
+- Limitación aprobada: las partidas viven únicamente en memoria del proceso. No se inició Task 7 ni se ejecutaron comandos Git de escritura. Pendiente: revisión humana y commit manual de Task 6.
 
 - [ ] **Step 9: Detenerse para revisión y commit manual**
 

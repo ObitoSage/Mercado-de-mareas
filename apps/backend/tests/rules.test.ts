@@ -88,7 +88,7 @@ describe('movement rules', () => {
     ['AI', gameAtPlayerStart(), 'NOT_ACTIVE_ACTOR'],
     ['PLAYER', gameWith({ actionPoints: 0 }), 'NO_ACTION_POINTS'],
     ['PLAYER', gameWith({ phase: 'FINISHED' }), 'GAME_FINISHED'],
-  ])('rejects unavailable actor %s with %s', (actor, game, code) => {
+  ] as const)('rejects unavailable actor %s with %s', (actor, game, code) => {
     const before = structuredClone(game);
     const result = applyAction(game, actor, { type: 'MOVE', payload: { row: 6, column: 1 } });
     expect(result).toMatchObject({ ok: false, error: { code } });
