@@ -400,8 +400,8 @@ Expected: PASS.
 - La suite comprueba el mapa exacto, conectividad y rutas alternativas en marea alta, secuencia xorshift32, estado inicial, nombres y copias independientes. Refactor: revisión de duplicación y responsabilidades sin añadir comportamiento.
 - Verificación requerida: tests de backend (35 PASS), `npm run typecheck -w @mercado/backend` y `npm run lint`, todos con código 0. Revisión de código sin hallazgos importantes.
 - `.gitignore` conserva el cambio previo del usuario; la spec permanece intacta. No se ejecutaron comandos Git de escritura ni se inició Task 3.
-- Pendiente: revisión humana y commit manual de Task 2.
-- [ ] **Step 9: Detenerse para revisión y commit manual**
+- Checkpoint completado: el usuario confirmó el commit manual `a37f985` antes de autorizar Task 3.
+- [x] **Step 9: Detenerse para revisión y commit manual**
 
 Mensaje sugerido: `feat: generate seeded game state and board`.
 
@@ -418,7 +418,7 @@ Mensaje sugerido: `feat: generate seeded game state and board`.
 - Consumes: `GameState`, `GameAction`, `GameEvent`.
 - Produces: `RuleErrorCode`, `RuleResult`, `validateAction(game, actor, action)` y `applyAction(game, actor, action)`.
 
-- [ ] **Step 1: Escribir tabla de pruebas fallidas para movimientos**
+- [x] **Step 1: Escribir tabla de pruebas fallidas para movimientos**
 
 ```ts
 it.each([
@@ -432,13 +432,13 @@ it.each([
 
 Añadir casos separados para isla adyacente —posicionar primero al jugador en `(6,3)` y mover a `(6,4)`—, arrecife cerrado, casilla ocupada, turno incorrecto, cero puntos y partida finalizada.
 
-- [ ] **Step 2: Ejecutar los tests para confirmar el fallo**
+- [x] **Step 2: Ejecutar los tests para confirmar el fallo**
 
 Run: `npm run test -w @mercado/backend -- --run tests/rules.test.ts`
 
 Expected: FAIL porque `applyAction` no existe.
 
-- [ ] **Step 3: Implementar errores y validación de movimiento**
+- [x] **Step 3: Implementar errores y validación de movimiento**
 
 ```ts
 export type RuleResult =
@@ -452,23 +452,35 @@ export function isAdjacent(from: Position, to: Position): boolean {
 
 Aplicar validaciones en este orden: fase/actor, puntos, límites, adyacencia, tile, regla de arrecife y ocupación. Los mensajes se escriben en español y permanecen centralizados por código.
 
-- [ ] **Step 4: Escribir pruebas fallidas para carga y venta**
+- [x] **Step 4: Escribir pruebas fallidas para carga y venta**
 
 Cubrir carga correcta, puerto vacío, bodega llena, carga fuera de puerto, venta correcta, venta fuera de mercado y venta de mercancía ausente. Cada rechazo debe conservar igualdad profunda con el estado anterior.
 
-- [ ] **Step 5: Implementar `LOAD` y `SELL` de forma inmutable**
+- [x] **Step 5: Implementar `LOAD` y `SELL` de forma inmutable**
 
 `LOAD` decrementa una existencia, agrega una unidad y consume un punto. `SELL` elimina exactamente una unidad, suma `max(1, base + tideModifier - demandPenalty)`, incrementa la penalización de demanda y consume un punto.
 
-- [ ] **Step 6: Implementar `END_TURN` y log limitado**
+- [x] **Step 6: Implementar `END_TURN` y log limitado**
 
 `END_TURN` fija los puntos del actor en 0. Toda acción exitosa produce un `GameEvent`; la utilidad `appendEvents` conserva los 50 más recientes.
 
-- [ ] **Step 7: Ejecutar la suite enfocada y completa**
+- [x] **Step 7: Ejecutar la suite enfocada y completa**
 
 Run: `npm run test -w @mercado/backend -- --run tests/rules.test.ts && npm run test -w @mercado/backend -- --run && npm run typecheck -w @mercado/backend && npm run lint`
 
 Expected: PASS.
+
+**Registro de ejecución — 2026-09-14 (Task 3):**
+
+- Base verificada: commit manual de Task 2 `a37f985`; el árbol estaba limpio antes de iniciar.
+- Rojo de movimiento: la suite terminó con código 1 porque faltaba `rules.js`; verde posterior: 15 pruebas PASS.
+- Rojo de carga y venta: 8 fallos esperados porque ambas acciones devolvían el estado sin cambios; verde posterior: 23 pruebas PASS.
+- Rojo de fin de turno y límite del log: 2 fallos esperados por puntos sin descartar y 51 eventos; verde posterior: 25 pruebas PASS tras implementar `appendEvents`.
+- Rojo de mensajes: 2 fallos porque carga y venta incluían `FISH`; se añadieron etiquetas españolas y la suite volvió a verde.
+- Fallo de verificación diagnosticado: ESLint detectó tres casts literales innecesarios en el test. Se eliminaron sin cambiar producción y se repitió toda la verificación.
+- Verificación final requerida: 25 pruebas enfocadas PASS, 60 pruebas de backend PASS, typecheck PASS y lint PASS, todos con código 0 usando Node 24.19.0.
+- No se ejecutaron comandos Git de escritura ni se inició Task 4.
+- Pendiente: revisión humana y commit manual de Task 3.
 
 - [ ] **Step 8: Detenerse para revisión y commit manual**
 
