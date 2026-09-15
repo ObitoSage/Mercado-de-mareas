@@ -17,7 +17,7 @@ export function createGameFixture(overrides: Partial<GameState> = {}): GameState
       AI: { id: 'AI', kind: 'BOT', name: 'Rival', position: { row: 0, column: 6 }, coins: 0, cargo: [], cargoCapacity: 3 },
     },
     supplies: board.flatMap((tile) => tile.supplyGood ? [{ position: tile.position, good: tile.supplyGood, stock: 3 }] : []),
-    prices: { FISH: 3, SPICE: 5, PEARL: 7 }, demand: { FISH: 0, SPICE: 0, PEARL: 0 }, result: null,
+    prices: { FISH: 3, SPICE: 6, PEARL: 7 }, demand: { FISH: 0, SPICE: 0, PEARL: 0 }, result: null,
     eventLog: [{ type: 'GAME_STARTED', round: 1, message: 'Comienza la partida.' }],
   };
   return structuredClone({ ...game, ...overrides });

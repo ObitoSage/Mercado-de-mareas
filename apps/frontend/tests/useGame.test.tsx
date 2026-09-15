@@ -104,7 +104,7 @@ describe('useGame', () => {
     const game = createGameFixture({ actionPoints: 1 });
     vi.mocked(gameApi.sendAction).mockRejectedValue(new GameApiError(409, 'NOT_AT_SUPPLY_PORT', 'Carga inválida.', game));
     await act(async () => { await result.current.sendAction({ type: 'LOAD' }); });
-    expect(result.current).toMatchObject({ game, status: 'playing', error: 'Carga inválida.', isSubmitting: false });
+    expect(result.current).toMatchObject({ game, status: 'playing', error: 'Carga inválida.', canRetry: false, isSubmitting: false });
   });
 
   it.each([0, 500])('preserves the last state on error %i and retries with GET only', async (status) => {
@@ -112,7 +112,7 @@ describe('useGame', () => {
     const before = result.current.game;
     vi.mocked(gameApi.sendAction).mockRejectedValue(new GameApiError(status, 'ERROR', 'No se pudo completar.'));
     await act(async () => { await result.current.sendAction({ type: 'END_TURN' }); });
-    expect(result.current).toMatchObject({ game: before, error: 'No se pudo completar.', status: 'playing', isSubmitting: false });
+    expect(result.current).toMatchObject({ game: before, error: 'No se pudo completar.', canRetry: true, status: 'playing', isSubmitting: false });
     expect(gameApi.getGame).not.toHaveBeenCalled();
     const game = createGameFixture({ round: 2 });
     vi.mocked(gameApi.getGame).mockResolvedValue({ game });
@@ -120,6 +120,17 @@ describe('useGame', () => {
     expect(gameApi.getGame).toHaveBeenCalledWith('game-1');
     expect(gameApi.sendAction).toHaveBeenCalledTimes(1);
     expect(result.current).toMatchObject({ game, error: null, isSubmitting: false });
+  });
+
+  it('does not retry a missing game after the server loses in-memory state', async () => {
+    const { result } = await started();
+    vi.mocked(gameApi.sendAction).mockRejectedValue(
+      new GameApiError(404, 'GAME_NOT_FOUND', 'La partida no existe.'),
+    );
+
+    await act(async () => { await result.current.sendAction({ type: 'END_TURN' }); });
+
+    expect(result.current).toMatchObject({ error: 'La partida no existe.', canRetry: false });
   });
 
   it('allows recovery after a failed initial GET', async () => {
@@ -136,7 +147,7 @@ describe('useGame', () => {
     vi.mocked(gameApi.createGame).mockRejectedValueOnce(new GameApiError(0, 'NETWORK_ERROR', 'Sin conexión.'));
     const { result } = renderHook(() => useGame());
     await act(async () => { await result.current.startGame('Marina'); });
-    expect(result.current).toMatchObject({ game: null, status: 'idle', error: 'Sin conexión.', isSubmitting: false });
+    expect(result.current).toMatchObject({ game: null, status: 'idle', error: 'Sin conexión.', canRetry: false, isSubmitting: false });
     expect(sessionStorage.getItem(KEY)).toBeNull();
     vi.mocked(gameApi.createGame).mockResolvedValue({ game: createGameFixture() });
     await act(async () => { await result.current.startGame('Marina'); });

@@ -8,6 +8,7 @@ export type UseGameResult = Readonly<{
   game: GameState | null;
   status: 'idle' | 'loading' | 'playing' | 'finished';
   error: string | null;
+  canRetry: boolean;
   isSubmitting: boolean;
   startGame(playerName: string): Promise<void>;
   sendAction(action: GameAction): Promise<void>;
@@ -20,6 +21,7 @@ export function useGame(): UseGameResult {
   const [game, setGame] = useState<GameState | null>(null);
   const [status, setStatus] = useState<UseGameResult['status']>(initialId ? 'loading' : 'idle');
   const [error, setError] = useState<string | null>(null);
+  const [canRetry, setCanRetry] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(Boolean(initialId));
   const currentGame = useRef<GameState | null>(null);
   const currentId = useRef(initialId);
@@ -40,6 +42,7 @@ export function useGame(): UseGameResult {
       if (version.current !== requestVersion) return;
       adoptGame(response.game);
       setError(null);
+      setCanRetry(false);
     } catch (failure) {
       if (version.current !== requestVersion) return;
       if (failure instanceof GameApiError && failure.status === 409 && failure.game) {
@@ -48,6 +51,11 @@ export function useGame(): UseGameResult {
         setStatus(currentGame.current ? currentGame.current.phase === 'FINISHED' ? 'finished' : 'playing' : 'idle');
       }
       setError(failure instanceof GameApiError ? failure.message : 'No se pudo completar la solicitud.');
+      setCanRetry(
+        failure instanceof GameApiError
+        && (failure.status === 0 || failure.status >= 500 || failure.code === 'INVALID_RESPONSE')
+        && currentId.current !== null,
+      );
     } finally {
       if (version.current === requestVersion) {
         busy.current = false;
@@ -63,6 +71,7 @@ export function useGame(): UseGameResult {
     const requestVersion = ++version.current;
     setIsSubmitting(true);
     setError(null);
+    setCanRetry(false);
     if (loading) setStatus('loading');
     return resolveRequest(request, requestVersion);
   }, [resolveRequest]);
@@ -105,8 +114,9 @@ export function useGame(): UseGameResult {
     setGame(null);
     setStatus('idle');
     setError(null);
+    setCanRetry(false);
     setIsSubmitting(false);
   }, []);
 
-  return { game, status, error, isSubmitting, startGame, sendAction, retry, restart };
+  return { game, status, error, canRetry, isSubmitting, startGame, sendAction, retry, restart };
 }

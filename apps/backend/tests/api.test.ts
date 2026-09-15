@@ -6,6 +6,22 @@ import { createGameStore } from '../src/game-store.js';
 import type { GameStore } from '../src/game-store.js';
 
 describe('game API', () => {
+  it('projects current sale prices without mutating the stored base prices', async () => {
+    const store = createGameStore();
+    const stored = store.create({ playerName: 'Marina', seed: 1209 });
+    expect(stored.tide).toBe('RISING');
+    expect(stored.prices).toEqual({ FISH: 3, SPICE: 5, PEARL: 7 });
+
+    const response = await request(createApp({ store }))
+      .get(`/api/games/${stored.id}`)
+      .expect(200);
+
+    expect(response.body).toMatchObject({
+      game: { prices: { FISH: 3, SPICE: 6, PEARL: 7 } },
+    });
+    expect(store.get(stored.id)?.prices).toEqual({ FISH: 3, SPICE: 5, PEARL: 7 });
+  });
+
   it('creates, reads and advances a game through JSON', async () => {
     const store = createGameStore();
     const app = createApp({ store });
@@ -15,7 +31,10 @@ describe('game API', () => {
     expect(game.board).toHaveLength(49);
     expect(game.players.PLAYER.name).toBe('Marina');
     expect(game.seed).toBe(1209);
-    expect(game).toEqual(store.get(game.id));
+    expect(game).toEqual({
+      ...store.get(game.id),
+      prices: { FISH: 3, SPICE: 6, PEARL: 7 },
+    });
     const read = await request(app).get(`/api/games/${game.id}`).expect(200).expect('Content-Type', /json/);
     expect(read.body).toEqual({ game });
 
@@ -26,7 +45,10 @@ describe('game API', () => {
     expect(first.game.players.PLAYER.position).toEqual({ row: 6, column: 1 });
     expect(first.game.players.AI).toEqual(game.players.AI);
     expect(first.newEvents).toEqual([expect.objectContaining({ type: 'MOVED', actor: 'PLAYER' })]);
-    expect(store.get(game.id)).toEqual(first.game);
+    expect(store.get(game.id)).toEqual({
+      ...first.game,
+      prices: { FISH: 3, SPICE: 5, PEARL: 7 },
+    });
 
     const second = await request(app).post(`/api/games/${game.id}/actions`)
       .send({ type: 'MOVE', payload: { row: 5, column: 1 } }).expect(200);
@@ -120,9 +142,10 @@ describe('game API', () => {
     const app = createApp({ store });
     const response = await request(app).post(`/api/games/${game.id}/actions`)
       .send({ type: 'LOAD' }).expect(409).expect('Content-Type', /json/);
-    expect(response.body).toMatchObject({ error: { code: 'NOT_AT_SUPPLY_PORT' }, game: before });
+    const presented = { ...before, prices: { FISH: 3, SPICE: 6, PEARL: 7 } };
+    expect(response.body).toMatchObject({ error: { code: 'NOT_AT_SUPPLY_PORT' }, game: presented });
     const read = await request(app).get(`/api/games/${game.id}`).expect(200);
-    expect(read.body).toEqual({ game: before });
+    expect(read.body).toEqual({ game: presented });
     expect(game).toEqual(before);
   });
 

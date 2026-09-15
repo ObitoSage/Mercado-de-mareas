@@ -827,7 +827,7 @@ Expected: PASS.
 - `git diff --check` sin errores de whitespace; `git status --short` mostró únicamente los cambios de esta task. Revisión independiente sin hallazgos.
 - Refactor: handler JSON 404 reutilizado para cerrar la API y responder rutas restantes. No se cambió la spec ni se añadieron reglas al frontend.
 
-- [ ] **Step 8: Detenerse para revisión y commit manual**
+- [x] **Step 8: Detenerse para revisión y commit manual**
 
 Mensaje sugerido: `feat: serve frontend and API from one Express origin`.
 
@@ -926,7 +926,7 @@ Expected: PASS.
 - Verificación final: 23 pruebas enfocadas PASS, typecheck frontend PASS, lint raíz PASS sin advertencias y build raíz PASS; todos con código 0. Revisión independiente sin hallazgos pendientes.
 - Se conservó el shell de Task 7; conectar las pantallas jugables corresponde a Task 9. Spec y dependencias sin cambios. No se ejecutaron comandos Git de escritura. Checkpoints manuales de Tasks 7 y 8 pendientes del usuario.
 
-- [ ] **Step 8: Detenerse para revisión y commit manual**
+- [x] **Step 8: Detenerse para revisión y commit manual**
 
 Mensaje sugerido: `feat: connect React state to Express with fetch`.
 
@@ -948,7 +948,7 @@ Mensaje sugerido: `feat: connect React state to Express with fetch`.
 - Consumes: `useGame`, `GameState`.
 - Produces: navegación por estado sin router y shell accesible de la partida.
 
-- [ ] **Step 1: Escribir prueba fallida de inicio**
+- [x] **Step 1: Escribir prueba fallida de inicio**
 
 ```tsx
 it('starts a game and replaces the home screen with game status', async () => {
@@ -964,33 +964,41 @@ it('starts a game and replaces the home screen with game status', async () => {
 
 Mockear el módulo `game-api`, no `fetch`, porque el cliente HTTP ya tiene su propia prueba.
 
-- [ ] **Step 2: Ejecutar para comprobar el fallo**
+- [x] **Step 2: Ejecutar para comprobar el fallo**
 
 Run: `npm run test -w @mercado/frontend -- --run tests/App.test.tsx`
 
 Expected: FAIL por pantallas inexistentes.
 
-- [ ] **Step 3: Implementar HomeScreen**
+- [x] **Step 3: Implementar HomeScreen**
 
 Incluir título, descripción, campo de nombre, botón de inicio e instrucciones visibles que enumeren objetivo, movimiento, carga, venta, mareas, 10 rondas, empate y acciones inválidas. El submit llama `startGame` y permanece desactivado durante carga.
 
-- [ ] **Step 4: Implementar shell de GameScreen**
+- [x] **Step 4: Implementar shell de GameScreen**
 
 `StatusBar` muestra ronda, marea, turno y puntos. Dos `PlayerPanel` muestran monedas, posición, bodega y capacidad. Reservar regiones semánticas con headings para tablero, controles y bitácora; las tasks siguientes llenan esas regiones.
 
-- [ ] **Step 5: Conectar App por estado**
+- [x] **Step 5: Conectar App por estado**
 
 `idle/loading` muestra inicio, `playing` muestra `GameScreen` y `finished` se delegará después a `ResultScreen`. No instalar router ni cambiar URL.
 
-- [ ] **Step 6: Crear base CSS de pantalla completa**
+- [x] **Step 6: Crear base CSS de pantalla completa**
 
 Definir `min-height: 100dvh`, layout responsive, tipografía del sistema, variables de color, foco visible y ancho mínimo utilizable. Sin imágenes remotas ni dependencias de estilos.
 
-- [ ] **Step 7: Ejecutar verificación de interfaz inicial**
+- [x] **Step 7: Ejecutar verificación de interfaz inicial**
 
 Run: `npm run test -w @mercado/frontend -- --run tests/App.test.tsx && npm run typecheck -w @mercado/frontend && npm run lint && npm run build -w @mercado/frontend`
 
 Expected: PASS.
+
+**Registro de ejecución — 2026-09-14 (Task 9):**
+
+- Base verificada: commit manual conjunto de Tasks 7 y 8 `8157111`; árbol limpio antes de iniciar.
+- Rojo: la primera invocación tomó Node 22 del sistema y falló por `EPERM` antes de Vitest; con el runtime aprobado Node 24.19.0, `App.test.tsx` falló por ausencia de las instrucciones y el formulario.
+- Verde: 1 prueba enfocada PASS para inicio y reemplazo de portada por estado de ronda.
+- Implementación: portada con instrucciones completas, navegación por estado sin router, barra de ronda/marea/turno/puntos, paneles de ambos jugadores y regiones semánticas reservadas.
+- Verificación: test enfocado, typecheck frontend, lint raíz, build frontend y `git diff --check` PASS.
 
 - [ ] **Step 8: Detenerse para revisión y commit manual**
 
@@ -1012,7 +1020,7 @@ Mensaje sugerido: `feat: add game start instructions and status layout`.
 - Consumes: `GameState`, `GameAction`, `sendAction`, `isSubmitting`.
 - Produces: tablero CSS Grid 7 × 7 y emisión accesible de las cuatro acciones.
 
-- [ ] **Step 1: Escribir prueba fallida de tablero y movimiento**
+- [x] **Step 1: Escribir prueba fallida de tablero y movimiento**
 
 ```tsx
 it('renders 49 cells and sends a selected adjacent move', async () => {
@@ -1026,37 +1034,45 @@ it('renders 49 cells and sends a selected adjacent move', async () => {
 });
 ```
 
-- [ ] **Step 2: Escribir pruebas fallidas de carga, venta y fin de turno**
+- [x] **Step 2: Escribir pruebas fallidas de carga, venta y fin de turno**
 
 Renderizar fixtures del jugador sobre puerto de suministro y mercado. Verificar `LOAD`, selección de mercancía para `SELL`, `END_TURN` y desactivación de todos los botones mientras `isSubmitting`.
 
-- [ ] **Step 3: Ejecutar para confirmar el fallo**
+- [x] **Step 3: Ejecutar para confirmar el fallo**
 
 Run: `npm run test -w @mercado/frontend -- --run tests/GameScreen.test.tsx`
 
 Expected: FAIL por componentes inexistentes.
 
-- [ ] **Step 4: Implementar GameBoard semántico**
+- [x] **Step 4: Implementar GameBoard semántico**
 
 Usar `role="grid"`, 49 contenedores `role="gridcell"` y un botón por casilla. El nombre accesible sigue `Casilla {row}, {column}: {tipo}`. Representar jugador y rival con elementos de texto/símbolo dentro de la casilla y atributos `data-actor`; no codificar reglas de validez en el componente.
 
-- [ ] **Step 5: Implementar ActionPanel**
+- [x] **Step 5: Implementar ActionPanel**
 
 Los botones `Cargar`, `Vender pescado`, `Vender especias`, `Vender perlas` y `Terminar turno` emiten objetos `GameAction`. Permanecen visibles durante el turno para permitir que Express demuestre una acción inválida; solo se desactivan por solicitud pendiente, fase no humana o partida terminada.
 
-- [ ] **Step 6: Implementar EventLog y estilos del tablero**
+- [x] **Step 6: Implementar EventLog y estilos del tablero**
 
 El log usa `aria-live="polite"` y muestra los eventos recientes en español. CSS Grid usa `repeat(7, minmax(0, 1fr))`, relación cuadrada, clases por tile/marea, barcos posicionados y transición de `transform`/`opacity`. Incluir media query para tableta.
 
-- [ ] **Step 7: Ejecutar pruebas y build**
+- [x] **Step 7: Ejecutar pruebas y build**
 
 Run: `npm run test -w @mercado/frontend -- --run tests/GameScreen.test.tsx && npm run test -w @mercado/frontend -- --run && npm run typecheck && npm run lint && npm run build`
 
 Expected: PASS.
 
-- [ ] **Step 8: Verificación manual del recorrido parcial**
+- [x] **Step 8: Verificación manual del recorrido parcial**
 
 Run: `npm run dev`. Abrir `http://localhost:5173`, iniciar partida, mover dos veces, cargar o provocar una carga inválida y terminar turno. Confirmar en Network que cada acción llama `/api/games/:id/actions` y devuelve JSON.
+
+**Registro de ejecución — 2026-09-14 (Task 10):**
+
+- Rojo: 3 pruebas enfocadas fallaron por ausencia de las 49 `gridcell` y de los botones de acción.
+- Verde: 3 pruebas enfocadas PASS para tablero, movimiento, carga, venta, fin de turno y bloqueo durante envío; suite frontend completa con 27 pruebas PASS.
+- Implementación: tablero CSS Grid 7 × 7, nombres accesibles por casilla, barcos con `data-actor`, existencias, cinco controles siempre visibles y bitácora `aria-live` con diez eventos recientes.
+- Verificación: typecheck raíz, lint raíz, build raíz y `git diff --check` PASS.
+- Recorrido manual real: inicio, movimientos `(6,1)` y `(5,1)`, avance a ronda 2 con IA, carga de pescado, fin de turno y ronda 3; el estado y la bitácora confirmaron las respuestas JSON de la API.
 
 - [ ] **Step 9: Detenerse para revisión y commit manual**
 
@@ -1079,7 +1095,7 @@ Mensaje sugerido: `feat: render playable board and game controls`.
 - Consumes: `error`, `retry`, `restart`, `GameResult`.
 - Produces: recuperación de red, mensajes de reglas, pantalla final y experiencia compatible con movimiento reducido.
 
-- [ ] **Step 1: Escribir pruebas fallidas de error y recuperación**
+- [x] **Step 1: Escribir pruebas fallidas de error y recuperación**
 
 ```tsx
 it('announces a backend rule error without removing the board', async () => {
@@ -1097,37 +1113,46 @@ it('announces a backend rule error without removing the board', async () => {
 
 Añadir prueba de error de red con botón `Reintentar` y estado oficial conservado.
 
-- [ ] **Step 2: Escribir prueba fallida de resultado**
+- [x] **Step 2: Escribir prueba fallida de resultado**
 
 Renderizar cada variante `PLAYER_WIN`, `AI_WIN` y `DRAW`; comprobar heading, monedas de ambos, resumen y botón `Jugar otra vez`.
 
-- [ ] **Step 3: Ejecutar para comprobar el fallo**
+- [x] **Step 3: Ejecutar para comprobar el fallo**
 
 Run: `npm run test -w @mercado/frontend -- --run tests/feedback.test.tsx`
 
 Expected: FAIL por componentes inexistentes.
 
-- [ ] **Step 4: Implementar ErrorBanner**
+- [x] **Step 4: Implementar ErrorBanner**
 
 Usar `role="alert"`, mensaje textual, botón de reintento solo para error de red y botón de cierre para errores de regla. El cierre elimina únicamente el mensaje local, no el estado ni el id.
 
-- [ ] **Step 5: Implementar ResultScreen y reinicio**
+- [x] **Step 5: Implementar ResultScreen y reinicio**
 
 Mapear los tres resultados a textos inequívocos. Mostrar `Riqueza de {playerName}: N`, `Riqueza del rival: N`, hasta 10 eventos finales y botón que llama `restart`.
 
-- [ ] **Step 6: Completar retroalimentación visual accesible**
+- [x] **Step 6: Completar retroalimentación visual accesible**
 
 Añadir foco `:focus-visible`, contraste suficiente, `aria-busy` durante solicitudes, `aria-current` para turno, transición de barcos y aparición de mercancías. Bajo `@media (prefers-reduced-motion: reduce)`, fijar duración de animaciones/transiciones a `0.01ms`. Añadir aviso no bloqueante bajo 720 px.
 
-- [ ] **Step 7: Ejecutar verificación completa de frontend**
+- [x] **Step 7: Ejecutar verificación completa de frontend**
 
 Run: `npm run test -w @mercado/frontend -- --run && npm run typecheck -w @mercado/frontend && npm run lint && npm run build -w @mercado/frontend`
 
 Expected: PASS.
 
-- [ ] **Step 8: Jugar manualmente una partida completa**
+- [x] **Step 8: Jugar manualmente una partida completa**
 
 Run: `npm run dev`. Verificar inicio, instrucciones, movimiento, carga, venta, dos turnos de IA observables, cambio de marea, recurso repuesto, error de regla y resultado tras la ronda 10. Registrar cualquier defecto como fallo de esta task y corregirlo antes de avanzar.
+
+**Registro de ejecución — 2026-09-14 (Task 11):**
+
+- Rojo inicial: `feedback.test.tsx` no pudo resolver `ResultScreen`; tras la primera implementación, los tres resultados revelaron que la riqueza no formaba la frase literal requerida. Se corrigió el marcado y las 5 pruebas quedaron verdes.
+- Implementación: alerta de regla descartable, red/500 reintentables mediante GET cuando existe id, tablero conservado, resultados inequívocos, riquezas, diez eventos finales, reinicio, foco visible, aviso estrecho y movimiento reducido.
+- Fallo de verificación diagnosticado: lint detectó un callback `async` sin `await`; se sustituyó por `Promise.resolve()` y se repitió la verificación completa.
+- Revisión independiente: se corrigieron reintentos 500/404/creación, existencias accesibles, tokens CSS, animación real del barco y ausencia de precios efectivos. Ajuste mínimo al contrato: `useGame` añade `canRetry` porque `error: string` no conserva la categoría HTTP exigida por la recuperación; Express proyecta precios efectivos con `getSalePrice` sin mutar los precios base del store ni duplicar reglas en React.
+- Verificación final: `npm run verify` PASS con 46 pruebas shared, 167 backend y 37 frontend; typecheck, lint y builds de los tres workspaces PASS. Consola del navegador sin warnings ni errores y revisión independiente final sin hallazgos críticos o importantes.
+- Partida manual completa PASS: error 409 y cierre, movimiento, carga, varios turnos de IA, mareas, reposiciones, venta con riqueza de 0 a 3, final en ronda 10, ambas riquezas, diez sucesos y regreso a inicio con `Jugar otra vez`.
 
 - [ ] **Step 9: Detenerse para revisión y commit manual**
 

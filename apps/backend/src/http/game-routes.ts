@@ -1,13 +1,25 @@
 import { Router } from 'express';
 import type { RequestHandler } from 'express';
-import type { ActionResponse, ErrorResponse, GameResponse } from '@mercado/shared';
+import type { ActionResponse, ErrorResponse, GameResponse, GameState } from '@mercado/shared';
 import { dispatchPlayerAction } from '../domain/game-engine.js';
+import { getSalePrice } from '../domain/market.js';
 import type { GameStore } from '../game-store.js';
 import { parseActionBody, parseCreateGameBody } from './parse-action.js';
 
 const GAME_NOT_FOUND: ErrorResponse = {
   error: { code: 'GAME_NOT_FOUND', message: 'La partida no existe.' },
 };
+
+function presentGame(game: GameState): GameState {
+  return {
+    ...game,
+    prices: {
+      FISH: getSalePrice(game, 'FISH'),
+      SPICE: getSalePrice(game, 'SPICE'),
+      PEARL: getSalePrice(game, 'PEARL'),
+    },
+  };
+}
 
 export function createGameRoutes(store: GameStore): Router {
   const router = Router();
@@ -17,7 +29,7 @@ export function createGameRoutes(store: GameStore): Router {
       res.status(400).json({ error: parsed.error });
       return;
     }
-    res.status(201).json({ game: store.create(parsed.value) });
+    res.status(201).json({ game: presentGame(store.create(parsed.value)) });
   };
 
   const getGameHandler: RequestHandler<{ gameId: string }, GameResponse | ErrorResponse> = (req, res) => {
@@ -26,7 +38,7 @@ export function createGameRoutes(store: GameStore): Router {
       res.status(404).json(GAME_NOT_FOUND);
       return;
     }
-    res.json({ game });
+    res.json({ game: presentGame(game) });
   };
 
   const actionHandler: RequestHandler<{ gameId: string }, ActionResponse | ErrorResponse, unknown> = (req, res) => {
@@ -42,11 +54,11 @@ export function createGameRoutes(store: GameStore): Router {
     }
     const result = dispatchPlayerAction(game, parsed.value);
     if (!result.ok) {
-      res.status(409).json({ error: result.error, game });
+      res.status(409).json({ error: result.error, game: presentGame(game) });
       return;
     }
     store.save(result.game);
-    res.json({ game: result.game, newEvents: result.events });
+    res.json({ game: presentGame(result.game), newEvents: result.events });
   };
 
   const healthHandler: RequestHandler = (_req, res) => {
