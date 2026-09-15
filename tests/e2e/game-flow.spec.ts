@@ -43,6 +43,34 @@ test('starts a game through the real Express API', async ({ page }) => {
   await expect(rivalPanel.locator('dd').first()).toHaveText('0');
 });
 
+test('keeps tile labels and ship identity legible at mobile width', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await startGame(page);
+
+  const board = page.getByRole('grid', { name: 'Tablero marítimo' });
+  const marketLabel = board.getByText('Mercado', { exact: true }).first();
+  for (const width of [320, 375]) {
+    await page.setViewportSize({ width, height: 812 });
+    await expect(marketLabel).toBeVisible();
+    const labelFontSize = await marketLabel.evaluate((element) => Number.parseFloat(getComputedStyle(element).fontSize));
+    expect(labelFontSize).toBeGreaterThanOrEqual(8);
+    const clippedLabels = await board.locator('.tile-name').evaluateAll((labels) => labels
+      .filter((label) => {
+        const tile = label.closest('.tile');
+        if (!tile || label.scrollWidth > label.clientWidth) return true;
+        const labelBounds = label.getBoundingClientRect();
+        const tileBounds = tile.getBoundingClientRect();
+        return labelBounds.left < tileBounds.left
+          || labelBounds.right > tileBounds.right
+          || labelBounds.top < tileBounds.top
+          || labelBounds.bottom > tileBounds.bottom;
+      })
+      .map((label) => label.textContent));
+    expect(clippedLabels).toEqual([]);
+    await expect(board.locator('.ship--player b')).toBeVisible();
+  }
+});
+
 test('moves, loads and sells through the real Express API', async ({ page }) => {
   await startGame(page);
   const playerPanel = page.getByRole('region', { name: 'Participantes' }).locator('article').first();

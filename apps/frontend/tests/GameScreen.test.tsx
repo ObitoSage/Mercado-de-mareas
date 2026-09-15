@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { GameState, Position } from '@mercado/shared';
 import GameScreen from '../src/screens/GameScreen';
@@ -78,6 +78,49 @@ describe('GameScreen', () => {
     expect(screen.getByRole('button', {
       name: /casilla 5, 1: puerto de abastecimiento de pescado, 3 unidades disponibles/i,
     })).toBeVisible();
+  });
+
+  it('identifies every kind of tile with visible symbols and a board legend', () => {
+    render(<GameScreen game={createGameFixture()} sendAction={vi.fn()} isSubmitting={false} />);
+
+    const legend = screen.getByRole('list', { name: /leyenda del tablero/i });
+    expect(within(legend).getByText('Mar navegable')).toBeVisible();
+    expect(within(legend).getByText('Isla bloqueada')).toBeVisible();
+    expect(within(legend).getByText('Arrecife · solo marea alta')).toBeVisible();
+    expect(within(legend).getByText('Abastecimiento')).toBeVisible();
+    expect(within(legend).getByText('Mercado')).toBeVisible();
+
+    const board = screen.getByRole('grid', { name: /tablero marítimo/i });
+    expect(within(board).getAllByText('Isla')).not.toHaveLength(0);
+    expect(within(board).getAllByText('Arrecife')).not.toHaveLength(0);
+    expect(within(board).getAllByText('Mercado')).not.toHaveLength(0);
+    expect(within(board).getByText('Pescado')).toBeVisible();
+    expect(within(board).getByText('Especias')).toBeVisible();
+    expect(within(board).getByText('Perlas')).toBeVisible();
+  });
+
+  it('announces which ship occupies a board cell', () => {
+    render(<GameScreen game={createGameFixture()} sendAction={vi.fn()} isSubmitting={false} />);
+
+    expect(screen.getByRole('button', {
+      name: /casilla 6, 0: mercado, contiene tu barco/i,
+    })).toBeVisible();
+    expect(screen.getByRole('button', {
+      name: /casilla 0, 6: mercado, contiene el barco rival/i,
+    })).toBeVisible();
+  });
+
+  it('explains whether reefs are open for the current tide', () => {
+    const sendAction = vi.fn();
+    const { rerender } = render(
+      <GameScreen game={createGameFixture({ tide: 'LOW' })} sendAction={sendAction} isSubmitting={false} />,
+    );
+
+    expect(screen.getAllByRole('button', { name: /arrecife, bloqueado hasta la marea alta/i })).not.toHaveLength(0);
+
+    rerender(<GameScreen game={createGameFixture({ tide: 'HIGH' })} sendAction={sendAction} isSubmitting={false} />);
+    expect(screen.getAllByRole('button', { name: /arrecife, navegable con marea alta/i })).not.toHaveLength(0);
+    expect(screen.getAllByText('Abierto')).not.toHaveLength(0);
   });
 
   it('disables every control outside the human turn', () => {

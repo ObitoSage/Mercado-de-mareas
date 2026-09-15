@@ -5,6 +5,7 @@ const SELL_ACTIONS: readonly Readonly<{ good: Good; label: string }>[] = [
   { good: 'SPICE', label: 'Vender especias' },
   { good: 'PEARL', label: 'Vender perlas' },
 ];
+const GOOD_SYMBOLS: Record<Good, string> = { FISH: '🐟', SPICE: '✦', PEARL: '●' };
 
 export default function ActionPanel({ demand, disabled, onAction, prices }: Readonly<{
   demand: GameState['demand'];
@@ -15,16 +16,19 @@ export default function ActionPanel({ demand, disabled, onAction, prices }: Read
   return (
     <>
       <section className="market-panel" aria-labelledby="market-title">
+        <p className="panel-kicker">Precios de hoy</p>
         <h3 id="market-title">Mercado</h3>
         <ul>
-          <li>Pescado: {prices.FISH} monedas</li>
-          <li>Especias: {prices.SPICE} monedas</li>
-          <li>Perlas: {prices.PEARL} monedas</li>
+          <li><span className="good-icon" aria-hidden="true">{GOOD_SYMBOLS.FISH}</span>Pescado: {prices.FISH} monedas</li>
+          <li><span className="good-icon" aria-hidden="true">{GOOD_SYMBOLS.SPICE}</span>Especias: {prices.SPICE} monedas</li>
+          <li><span className="good-icon" aria-hidden="true">{GOOD_SYMBOLS.PEARL}</span>Perlas: {prices.PEARL} monedas</li>
         </ul>
-        <p>Penalización de demanda: {demand.FISH} pescado, {demand.SPICE} especias, {demand.PEARL} perlas</p>
+        <p className="demand-note">Penalización de demanda: {demand.FISH} pescado, {demand.SPICE} especias, {demand.PEARL} perlas</p>
       </section>
       <div className="action-panel">
-        <button type="button" disabled={disabled} onClick={() => onAction({ type: 'LOAD' })}>Cargar</button>
+        <button type="button" disabled={disabled} onClick={() => onAction({ type: 'LOAD' })}>
+          <span aria-hidden="true">▣</span>Cargar
+        </button>
         {SELL_ACTIONS.map(({ good, label }) => (
           <button
             type="button"
@@ -32,7 +36,7 @@ export default function ActionPanel({ demand, disabled, onAction, prices }: Read
             key={good}
             onClick={() => onAction({ type: 'SELL', payload: { good } })}
           >
-            {label}
+            <span aria-hidden="true">{GOOD_SYMBOLS[good]}</span>{label}
           </button>
         ))}
         <button
@@ -41,7 +45,7 @@ export default function ActionPanel({ demand, disabled, onAction, prices }: Read
           disabled={disabled}
           onClick={() => onAction({ type: 'END_TURN' })}
         >
-          Terminar turno
+          <span aria-hidden="true">→</span>Terminar turno
         </button>
       </div>
     </>
