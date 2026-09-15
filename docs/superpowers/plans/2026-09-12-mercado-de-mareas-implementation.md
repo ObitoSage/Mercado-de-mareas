@@ -1403,12 +1403,14 @@ Expected: PASS desde un checkout limpio equivalente y `git diff --check` sin err
 - Fallo del primer run remoto diagnosticado: `Deploy #3` (`34938985751`) se detuvo en `npm run lint`; el checkout limpio no tenía `packages/shared/dist`, aunque `@mercado/shared` publica sus tipos desde ese directorio. ESLint perdió los tipos y produjo diez errores `error typed`/`any` en `score.ts`; Render y los secretos todavía no habían sido ejecutados.
 - Corrección mínima: el script raíz `lint` compila primero `@mercado/shared`. Se movió temporalmente el `dist` local para reproducir un checkout sin artefactos, se confirmó su ausencia y el script lo reconstruyó antes de dejar ESLint verde.
 - Verificación posterior al fix: `npm run verify` PASS con lint, typecheck, 46 pruebas shared, 168 backend, 37 frontend y tres builds; `npm run e2e` PASS con 4 recorridos Chromium en 23.1 s. El respaldo temporal generado durante la simulación fue eliminado después de comprobar el nuevo `dist`.
+- Primer push de control: el usuario confirmó los commits manuales `b1a4ba0` y `9862a1b`, configuró Render y los secretos de GitHub, y realizó el push. Los runs `34939917524` (Lint), `34939917554` (Tests and E2E) y `34939917531` (Deploy) terminaron verdes para el SHA `9862a1baa59fe967e9e11f999b48ea302c3d194a`.
+- Verificación publicada: Render mostró el servicio `mercado-de-mareas` desplegado desde ese mismo SHA. `GET https://mercado-de-mareas.onrender.com/api/health` devolvió `{\"status\":\"ok\",\"commit\":\"9862a1baa59fe967e9e11f999b48ea302c3d194a\"}` y `BASE_URL=https://mercado-de-mareas.onrender.com npm run e2e:headed` terminó con 4 pruebas PASS en Chrome en 13.6 s.
 
-- [ ] **Step 8: Detenerse para revisión, configuración externa y commits**
+- [x] **Step 8: Detenerse para revisión, configuración externa y commits**
 
 Mensaje sugerido: `ci: add lint e2e and Render deployment workflows`. El usuario hace el commit, crea/conecta el Web Service desde `render.yaml`, copia el deploy hook, configura `RENDER_DEPLOY_HOOK_URL` y `PUBLIC_APP_URL` en GitHub y realiza el primer push de control.
 
-- [ ] **Step 9: Verificar el primer push de control**
+- [x] **Step 9: Verificar el primer push de control**
 
 El usuario confirma los tres workflows verdes y la URL. Ejecutar en PowerShell `$env:BASE_URL = Read-Host 'URL pública de Render'; npm run e2e:headed`. Expected: Chrome visible y pruebas PASS contra Render. No avanzar si un workflow o la URL falla.
 
