@@ -744,9 +744,9 @@ Expected: PASS.
 - Revisión de refactor: responsabilidades separadas entre store, parsers, rutas y app; sin dependencias nuevas ni cambios en el motor.
 - Verificación final con Node 24.19.0: 43 pruebas enfocadas PASS, 157 pruebas de backend PASS, typecheck de backend PASS y lint raíz PASS, todos con código 0. Comprobación adicional `node node_modules/typescript/bin/tsc -p apps/backend/tests/tsconfig.json --noEmit`: PASS.
 - Revisión independiente final: sin hallazgos pendientes tras corregir el error de clasificación HTTP.
-- Limitación aprobada: las partidas viven únicamente en memoria del proceso. No se inició Task 7 ni se ejecutaron comandos Git de escritura. Pendiente: revisión humana y commit manual de Task 6.
+- Limitación aprobada: las partidas viven únicamente en memoria del proceso. No se inició Task 7 en ese ciclo ni se ejecutaron comandos Git de escritura. Commit manual de Task 6 verificado: `8f6db7e`.
 
-- [ ] **Step 9: Detenerse para revisión y commit manual**
+- [x] **Step 9: Detenerse para revisión y commit manual**
 
 Mensaje sugerido: `feat: expose authoritative game REST API`.
 
@@ -768,21 +768,21 @@ Mensaje sugerido: `feat: expose authoritative game REST API`.
 - Consumes: `createApp()`.
 - Produces: proceso HTTP que escucha `PORT`, proxy Vite `/api` y fallback estático de SPA que nunca captura `/api/*`.
 
-- [ ] **Step 1: Escribir prueba fallida de archivos estáticos**
+- [x] **Step 1: Escribir prueba fallida de archivos estáticos**
 
 Crear un directorio temporal con `index.html`, pasar su ruta a `createApp({ frontendDist })` y comprobar `GET /` `200 text/html`; comprobar que `GET /api/missing` sigue respondiendo JSON `404`.
 
-- [ ] **Step 2: Ejecutar para confirmar el fallo**
+- [x] **Step 2: Ejecutar para confirmar el fallo**
 
 Run: `npm run test -w @mercado/backend -- --run tests/static-serving.test.ts`
 
 Expected: FAIL porque `frontendDist` y el fallback no están implementados.
 
-- [ ] **Step 3: Implementar servicio estático seguro**
+- [x] **Step 3: Implementar servicio estático seguro**
 
 Después de registrar rutas `/api`, usar `express.static(frontendDist)` y un fallback GET no API que envíe `index.html`. Si el directorio no existe en desarrollo o pruebas sin fixture, no registrar el servicio estático.
 
-- [ ] **Step 4: Crear entrada del servidor**
+- [x] **Step 4: Crear entrada del servidor**
 
 ```ts
 import { createApp } from './app.js';
@@ -796,11 +796,11 @@ app.listen(port, '0.0.0.0', () => {
 
 Resolver el dist de frontend desde `import.meta.url`, sin depender del directorio de trabajo.
 
-- [ ] **Step 5: Configurar Vite y shell React**
+- [x] **Step 5: Configurar Vite y shell React**
 
 `vite.config.ts` usa `@vitejs/plugin-react`, puerto 5173 y proxy `/api` a `http://localhost:3000`. `App.tsx` comienza con un encabezado `Mercado de Mareas` y una región `main`; todavía no contiene reglas.
 
-- [ ] **Step 6: Configurar builds y comprobar un solo origen**
+- [x] **Step 6: Configurar builds y comprobar un solo origen**
 
 El build raíz compila shared, frontend y backend en ese orden. Ejecutar:
 
@@ -811,11 +811,21 @@ $env:PORT=3000; npm start
 
 En otra terminal: `Invoke-WebRequest http://localhost:3000/api/health` y `Invoke-WebRequest http://localhost:3000/`. Expected: ambos `200` desde el puerto 3000. Terminar el proceso después de la comprobación.
 
-- [ ] **Step 7: Ejecutar todas las verificaciones**
+- [x] **Step 7: Ejecutar todas las verificaciones**
 
 Run: `npm run test -w @mercado/backend -- --run && npm run typecheck && npm run lint && npm run build`
 
 Expected: PASS.
+
+**Registro de ejecución — 2026-09-14 (Task 7):**
+
+- Base limpia verificada: `8f6db7e`. El usuario autorizó ejecutar Tasks 7 y 8 consecutivamente y realizar su commit/push manual al finalizar ambas; se conserva pendiente el checkpoint manual.
+- Rojo: `npm run test -w @mercado/backend -- --run tests/static-serving.test.ts` produjo tres fallos esperados (200 solicitado, 404 recibido para raíz, recurso y fallback). Verde: 9 pruebas PASS.
+- Implementación: entry Express con PORT, dist relativo a `import.meta.url`, archivos estáticos y fallback GET después de cerrar `/api` con JSON; Vite con proxy y shell React mínimo. Los scripts existentes ya cumplen el orden aprobado y se conservaron.
+- Verificación requerida con Node 24.19.0: 166 pruebas de backend PASS, typecheck raíz PASS, lint PASS y build raíz PASS; todos con código 0.
+- Smoke real: `npm start` con PORT=3000; `Invoke-WebRequest http://localhost:3000/api/health` devolvió 200 JSON con commit local y `Invoke-WebRequest http://localhost:3000/` devolvió 200 HTML. Ctrl+C no cerró el proceso hijo; se identificó el PID del servidor de prueba y se detuvo con `Stop-Process`. npm reportó salida 1 por esa terminación controlada.
+- `git diff --check` sin errores de whitespace; `git status --short` mostró únicamente los cambios de esta task. Revisión independiente sin hallazgos.
+- Refactor: handler JSON 404 reutilizado para cerrar la API y responder rutas restantes. No se cambió la spec ni se añadieron reglas al frontend.
 
 - [ ] **Step 8: Detenerse para revisión y commit manual**
 
@@ -837,11 +847,11 @@ Mensaje sugerido: `feat: serve frontend and API from one Express origin`.
 - Consumes: `GameState`, `GameAction`, respuestas y errores compartidos.
 - Produces: `gameApi.createGame`, `gameApi.getGame`, `gameApi.sendAction` y hook `useGame()`.
 
-- [ ] **Step 1: Configurar Vitest con jsdom**
+- [x] **Step 1: Configurar Vitest con jsdom**
 
 Añadir al `vite.config.ts` el bloque `test` con `environment: 'jsdom'`, `setupFiles: './tests/setup.ts'` y restauración de mocks. `setup.ts` importa `@testing-library/jest-dom/vitest`.
 
-- [ ] **Step 2: Escribir pruebas fallidas del cliente HTTP**
+- [x] **Step 2: Escribir pruebas fallidas del cliente HTTP**
 
 Crear antes `tests/fixtures.ts` con `createGameFixture(overrides: Partial<GameState> = {}): GameState`. Debe devolver un tablero de 49 casillas y todos los campos del contrato compartido; las pruebas de frontend solo modifican campos mediante `overrides`.
 
@@ -866,21 +876,21 @@ it('sends actions as JSON with native fetch', async () => {
 
 Añadir respuestas `409` con `game` autoritativo y error de red.
 
-- [ ] **Step 3: Ejecutar para confirmar el fallo**
+- [x] **Step 3: Ejecutar para confirmar el fallo**
 
 Run: `npm run test -w @mercado/frontend -- --run tests/game-api.test.ts`
 
 Expected: FAIL porque `gameApi` no existe.
 
-- [ ] **Step 4: Implementar un único wrapper de `fetch`**
+- [x] **Step 4: Implementar un único wrapper de `fetch`**
 
 Crear `requestJson<T>(url, init)` que valida `response.ok`, parsea JSON una vez y lanza `GameApiError` con `status`, `code`, `message` y `game` opcional. No añadir Axios, caché, reintentos automáticos ni estado global.
 
-- [ ] **Step 5: Escribir pruebas fallidas del hook**
+- [x] **Step 5: Escribir pruebas fallidas del hook**
 
 Probar estados `idle`, `loading`, `playing`, `finished`; creación; recuperación desde `sessionStorage`; envío bloqueado mientras existe una promesa; actualización con el estado de un `409`; y reintento GET tras error de red.
 
-- [ ] **Step 6: Implementar `useGame`**
+- [x] **Step 6: Implementar `useGame`**
 
 La API pública del hook debe ser:
 
@@ -899,11 +909,22 @@ type UseGameResult = Readonly<{
 
 Persistir únicamente el id bajo `mercado-de-mareas.game-id`. `restart` elimina ese valor y vuelve a `idle`.
 
-- [ ] **Step 7: Ejecutar verificación del cliente**
+- [x] **Step 7: Ejecutar verificación del cliente**
 
 Run: `npm run test -w @mercado/frontend -- --run tests/game-api.test.ts tests/useGame.test.tsx && npm run typecheck -w @mercado/frontend && npm run lint`
 
 Expected: PASS.
+
+**Registro de ejecución — 2026-09-14 (Task 8):**
+
+- Continuación autorizada expresamente por el usuario después de verificar Task 7, con commit/push manual de ambas al finalizar.
+- Rojo del cliente: `npm run test -w @mercado/frontend -- --run tests/game-api.test.ts` terminó con código 1 por ausencia de `game-api`; verde posterior: 9 pruebas PASS.
+- Rojo del hook: `npm run test -w @mercado/frontend -- --run tests/useGame.test.tsx` terminó con código 1 por ausencia de `useGame`; verde posterior: 14 pruebas PASS.
+- Cliente con un wrapper fetch, lectura JSON única, errores HTTP/red y estado adjunto de 409. Hook con estados aprobados, recuperación GET, bloqueo inmediato de solicitudes duplicadas, persistencia exclusiva del id, reinicio e invalidación de respuestas antiguas, incluyendo StrictMode.
+- Ajuste mínimo diagnosticado y explicado: las declaraciones externas de Vitest 5, jest-dom y Vite presentan conflictos de parámetros de Assertion, exports ausentes y tipos opcionales. La prueba de compilación con `--skipLibCheck` pasó; se activó `skipLibCheck` solo en `apps/frontend/tsconfig.json`, conservando strict y la comprobación del código propio.
+- Refactor sin cambio de comportamiento: la invalidación del contador usa asignación `+= 1` para que exhaustive-deps reconozca que es una ref administrada por el hook; se eliminó su advertencia sin desactivar reglas.
+- Verificación final: 23 pruebas enfocadas PASS, typecheck frontend PASS, lint raíz PASS sin advertencias y build raíz PASS; todos con código 0. Revisión independiente sin hallazgos pendientes.
+- Se conservó el shell de Task 7; conectar las pantallas jugables corresponde a Task 9. Spec y dependencias sin cambios. No se ejecutaron comandos Git de escritura. Checkpoints manuales de Tasks 7 y 8 pendientes del usuario.
 
 - [ ] **Step 8: Detenerse para revisión y commit manual**
 

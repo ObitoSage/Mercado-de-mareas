@@ -1,16 +1,28 @@
 import express from 'express';
-import type { ErrorRequestHandler, Express } from 'express';
+import type { ErrorRequestHandler, Express, RequestHandler } from 'express';
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { createGameStore } from './game-store.js';
 import type { GameStore } from './game-store.js';
 import { createGameRoutes } from './http/game-routes.js';
 
-export function createApp(options: { store?: GameStore } = {}): Express {
+export function createApp(options: { store?: GameStore; frontendDist?: string } = {}): Express {
   const app = express();
-  app.use(express.json());
-  app.use('/api', createGameRoutes(options.store ?? createGameStore()));
-  app.use((_req, res) => {
+  const notFound: RequestHandler = (_req, res) => {
     res.status(404).json({ error: { code: 'NOT_FOUND', message: 'La ruta no existe.' } });
-  });
+  };
+  app.use(express.json());
+  app.use('/api', createGameRoutes(options.store ?? createGameStore()), notFound);
+
+  const frontendDist = resolve(options.frontendDist ?? fileURLToPath(new URL('../../frontend/dist/', import.meta.url)));
+  if (existsSync(frontendDist)) {
+    app.use(express.static(frontendDist));
+    app.get(/.*/, (_req, res) => {
+      res.sendFile('index.html', { root: frontendDist });
+    });
+  }
+  app.use(notFound);
 
   const errorHandler: ErrorRequestHandler = (error: unknown, _req, res, next) => {
     if (res.headersSent) {
