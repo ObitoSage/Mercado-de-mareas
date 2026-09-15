@@ -14,7 +14,7 @@
     "dev": "npm run build -w @mercado/shared && concurrently -k -n api,web \"npm run dev -w @mercado/backend\" \"npm run dev -w @mercado/frontend\"",
     "build": "npm run build -w @mercado/shared && npm run build -w @mercado/frontend && npm run build -w @mercado/backend",
     "start": "npm run start -w @mercado/backend",
-    "lint": "eslint .",
+    "lint": "npm run build -w @mercado/shared && eslint .",
     "typecheck": "npm run build -w @mercado/shared && npm run typecheck -w @mercado/backend && npm run typecheck -w @mercado/frontend && tsc -p tsconfig.json",
     "test": "npm run build -w @mercado/shared && npm run test -w @mercado/shared && npm run test -w @mercado/backend && npm run test -w @mercado/frontend",
     "e2e": "playwright test --project=chromium",

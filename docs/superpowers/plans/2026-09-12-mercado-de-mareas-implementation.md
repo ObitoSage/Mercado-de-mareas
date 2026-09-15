@@ -1400,6 +1400,9 @@ Expected: PASS desde un checkout limpio equivalente y `git diff --check` sin err
 - Revisión independiente: sin hallazgos críticos, importantes ni menores en Actions, Render, secretos, SHA, test de health o alcance.
 - Limitación de verificación auxiliar: `actionlint`, `ConvertFrom-Yaml` y PyYAML no están instalados. No se añadió una dependencia ajena; los archivos fueron inspeccionados contra los bloques aprobados y la revisión independiente confirmó su semántica.
 - No se ejecutaron comandos Git de escritura, deploy hook ni push. La configuración externa, el primer push y la comprobación publicada permanecen en Steps 8–9.
+- Fallo del primer run remoto diagnosticado: `Deploy #3` (`34938985751`) se detuvo en `npm run lint`; el checkout limpio no tenía `packages/shared/dist`, aunque `@mercado/shared` publica sus tipos desde ese directorio. ESLint perdió los tipos y produjo diez errores `error typed`/`any` en `score.ts`; Render y los secretos todavía no habían sido ejecutados.
+- Corrección mínima: el script raíz `lint` compila primero `@mercado/shared`. Se movió temporalmente el `dist` local para reproducir un checkout sin artefactos, se confirmó su ausencia y el script lo reconstruyó antes de dejar ESLint verde.
+- Verificación posterior al fix: `npm run verify` PASS con lint, typecheck, 46 pruebas shared, 168 backend, 37 frontend y tres builds; `npm run e2e` PASS con 4 recorridos Chromium en 23.1 s. El respaldo temporal generado durante la simulación fue eliminado después de comprobar el nuevo `dist`.
 
 - [ ] **Step 8: Detenerse para revisión, configuración externa y commits**
 
