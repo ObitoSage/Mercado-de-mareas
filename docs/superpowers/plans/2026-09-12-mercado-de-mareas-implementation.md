@@ -1255,7 +1255,7 @@ Expected: Chrome visible ejecuta el mismo conjunto con API real. Si Chrome no es
 - Verificación final con Node 24.19.0: `npm run typecheck` PASS, ESLint PASS, Chromium headless 4 PASS en 30.4 s y Chrome visible 4 PASS en 29.2 s, sin reintentos locales.
 - `git diff --check` PASS. No se usaron interceptaciones, esperas arbitrarias ni comandos Git de escritura; `BASE_URL` conserva soporte para ejecutar los mismos E2E contra el despliegue de una task posterior.
 
-- [ ] **Step 8: Detenerse para revisión y commit manual**
+- [x] **Step 8: Detenerse para revisión y commit manual**
 
 Mensaje sugerido: `test: cover published game flows with Playwright`.
 
@@ -1275,17 +1275,17 @@ Mensaje sugerido: `test: cover published game flows with Playwright`.
 - Consumes: `npm ci`, scripts raíz, `/api/health`, `RENDER_GIT_COMMIT`.
 - Produces: tres checks separados y deploy verificable del SHA actual.
 
-- [ ] **Step 1: Escribir comprobación fallida del SHA de health**
+- [x] **Step 1: Escribir comprobación fallida del SHA de health**
 
 En `api.test.ts`, establecer temporalmente `process.env.RENDER_GIT_COMMIT = 'abc123'`, llamar `/api/health`, esperar `{ status: 'ok', commit: 'abc123' }` y restaurar el valor en `finally`.
 
-- [ ] **Step 2: Verificar el contrato de health**
+- [x] **Step 2: Verificar el contrato de health**
 
 Run: `npm run test -w @mercado/backend -- --run tests/api.test.ts`
 
 Expected: PASS con el endpoint implementado en Task 6. Si falla, restaurar exactamente `{ status: 'ok', commit: process.env.RENDER_GIT_COMMIT ?? 'local' }` antes de continuar.
 
-- [ ] **Step 3: Crear workflow de lint**
+- [x] **Step 3: Crear workflow de lint**
 
 ```yaml
 name: Lint
@@ -1308,7 +1308,7 @@ jobs:
       - run: npm run typecheck
 ```
 
-- [ ] **Step 4: Crear workflow de pruebas E2E**
+- [x] **Step 4: Crear workflow de pruebas E2E**
 
 ```yaml
 name: Tests and E2E
@@ -1339,7 +1339,7 @@ jobs:
           retention-days: 14
 ```
 
-- [ ] **Step 5: Crear Blueprint de Render**
+- [x] **Step 5: Crear Blueprint de Render**
 
 ```yaml
 services:
@@ -1356,7 +1356,7 @@ services:
         value: '24'
 ```
 
-- [ ] **Step 6: Crear workflow de deployment con gate completo**
+- [x] **Step 6: Crear workflow de deployment con gate completo**
 
 `deploy.yml` se activa en push a `main` y `workflow_dispatch`. Antes del hook repite `npm ci`, lint, tipos, unitarias, build y Playwright Chromium. Después:
 
@@ -1383,11 +1383,23 @@ services:
 
 El deploy hook de Render ya contiene su parámetro secreto de consulta; por eso se concatena `&ref=`. Configurar `timeout-minutes: 30` en el job para tolerar cold start y build gratuito.
 
-- [ ] **Step 7: Validar localmente antes del primer push**
+- [x] **Step 7: Validar localmente antes del primer push**
 
 Run: `npm ci && npm run verify && npm run e2e`
 
 Expected: PASS desde un checkout limpio equivalente y `git diff --check` sin errores.
+
+**Registro de ejecución — 2026-09-15 (Task 13, preparación local):**
+
+- Base verificada: commit manual de Task 12 `90a22c6`; rama `main` y árbol limpio antes de iniciar, a las 02:28 (UTC-04), antes del corte de las 16:00.
+- TDD de health: se añadió una prueba que fija `RENDER_GIT_COMMIT=abc123`, afirma el SHA publicado y restaura el entorno en `finally`. El test fue verde de inmediato, como anticipaba el plan porque Task 6 ya implementó el contrato: 38 pruebas de API PASS.
+- CI: `lint.yml` instala desde lockfile y separa lint/tipos; `e2e.yml` ejecuta pruebas, instala Chromium, corre E2E y conserva el reporte; `deploy.yml` repite lint, tipos, unitarias, build y E2E antes de solicitar el SHA exacto a Render, esperarlo en health y ejecutar el smoke publicado.
+- Render: Blueprint de un único Web Service Node 24, plan gratuito, build reproducible, `npm start`, health check y despliegue automático desactivado. No se versionaron secretos.
+- `package.json` ya contenía todos los scripts consumidos por Task 13 después de Task 12; no se inventó otro script ni se modificó el manifiesto.
+- Gate local con Node 24.19.0: `npm ci` PASS (364 paquetes); `npm run verify` PASS con lint, typecheck, 46 pruebas shared, 168 backend, 37 frontend y builds de los tres workspaces; `npm run e2e` PASS con 4 pruebas Chromium en 40.1 s.
+- Revisión independiente: sin hallazgos críticos, importantes ni menores en Actions, Render, secretos, SHA, test de health o alcance.
+- Limitación de verificación auxiliar: `actionlint`, `ConvertFrom-Yaml` y PyYAML no están instalados. No se añadió una dependencia ajena; los archivos fueron inspeccionados contra los bloques aprobados y la revisión independiente confirmó su semántica.
+- No se ejecutaron comandos Git de escritura, deploy hook ni push. La configuración externa, el primer push y la comprobación publicada permanecen en Steps 8–9.
 
 - [ ] **Step 8: Detenerse para revisión, configuración externa y commits**
 

@@ -170,6 +170,18 @@ describe('game API', () => {
     expect(response.body).toEqual({ status: 'ok', commit: process.env.RENDER_GIT_COMMIT ?? 'local' });
   });
 
+  it('reports the Render commit configured for the running service', async () => {
+    const previousCommit = process.env.RENDER_GIT_COMMIT;
+    try {
+      process.env.RENDER_GIT_COMMIT = 'abc123';
+      const response = await request(createApp()).get('/api/health').expect(200).expect('Content-Type', /json/);
+      expect(response.body).toEqual({ status: 'ok', commit: 'abc123' });
+    } finally {
+      if (previousCommit === undefined) delete process.env.RENDER_GIT_COMMIT;
+      else process.env.RENDER_GIT_COMMIT = previousCommit;
+    }
+  });
+
   it('returns JSON 404 for an unknown API route', async () => {
     const response = await request(createApp()).get('/api/missing').expect(404).expect('Content-Type', /json/);
     expect(response.body).toMatchObject({ error: { code: 'NOT_FOUND' } });
