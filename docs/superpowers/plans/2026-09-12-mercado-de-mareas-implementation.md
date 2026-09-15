@@ -1433,39 +1433,39 @@ El usuario confirma los tres workflows verdes y la URL. Ejecutar en PowerShell `
 - Consumes: comandos, API, UI, CI y URL ya verificados.
 - Produces: entregables escritos y guion reproducible de defensa/video.
 
-- [ ] **Step 1: Escribir README desde evidencia ejecutable**
+- [x] **Step 1: Escribir README desde evidencia ejecutable**
 
 Incluir Node 24, `npm ci`, `npm run dev`, `npm run build`, `npm start`, `npm run test`, `npm run e2e`, `npm run e2e:headed`, arquitectura, endpoints JSON, `PORT`, secretos de GitHub y enlace real de Render. Probar cada comando antes de documentarlo.
 
-- [ ] **Step 2: Documentar propósito y reglas**
+- [x] **Step 2: Documentar propósito y reglas**
 
 `introduccion.md` cubre propósito, experiencia y jugadores. `reglas.md` cubre inicio, tablero, acciones, inválidos, mareas, estados, interacción, IA, victoria, empate y final. Comparar números y nombres con `GAME_RULES`.
 
-- [ ] **Step 3: Documentar API con solicitudes verificadas**
+- [x] **Step 3: Documentar API con solicitudes verificadas**
 
 `api.md` incluye los cuatro endpoints, métodos, códigos, entradas, respuestas completas y comandos `curl` ejecutables. Capturar los ejemplos desde una partida local real para evitar JSON ficticio.
 
-- [ ] **Step 4: Documentar decisiones, riesgos y evolución**
+- [x] **Step 4: Documentar decisiones, riesgos y evolución**
 
 `decisiones.md` explica monorepo, memoria de Express, motor puro, semilla, CSS Grid, ausencia de router/base de datos/Docker y los cambios relevantes de cada ciclo. Incluir riesgos y mitigaciones de la spec.
 
-- [ ] **Step 5: Documentar investigación y fuentes**
+- [x] **Step 5: Documentar investigación y fuentes**
 
 `investigacion.md` describe Playwright headless/Chrome, GitHub Actions, Render Web Service, deploy hooks, health checks, puerto, variables, cold starts y limitaciones. Citar las páginas oficiales de Playwright, GitHub Actions y Render usadas en el plan.
 
-- [ ] **Step 6: Completar registro de IA**
+- [x] **Step 6: Completar registro de IA**
 
 `uso-ia.md` usa una tabla con fecha, herramienta, solicitud, resultado incorporado, revisión humana y commit relacionado. Registrar diseño, plan y asistencia de implementación sin afirmar autoría humana exclusiva.
 
-- [ ] **Step 7: Crear guion de video y defensa**
+- [x] **Step 7: Crear guion de video y defensa**
 
 `defensa.md` divide el video de 3–5 minutos entre partida, solicitud JSON, E2E visual, Actions y URL. Añade checklist de 10 minutos: abrir credenciales, ejecutar E2E publicado, aplicar un cambio pequeño, correr lint/E2E, revisar Actions y confirmar deploy.
 
-- [ ] **Step 8: Realizar auditoría contra los 100 puntos**
+- [x] **Step 8: Realizar auditoría contra los 100 puntos**
 
 Crear una tabla en `README.md` que mapee las diez áreas de la rúbrica a archivo, prueba o pantalla concreta. Comprobar repositorio accesible, aplicación publicada, juego válido y condiciones de defensa antes de contar puntos.
 
-- [ ] **Step 9: Ejecutar verificación final completa**
+- [x] **Step 9: Ejecutar verificación final completa**
 
 Run:
 
@@ -1481,6 +1481,17 @@ npm run e2e:headed
 ```
 
 Introducir la URL que el usuario haya configurado cuando PowerShell la solicite. Expected: todos los comandos PASS y Chrome visible contra el despliegue.
+
+**Registro de ejecución — 2026-09-15 (Task 14):**
+
+- Base verificada: commit manual de Task 13 `fc44df1`, rama `main` y árbol limpio antes de iniciar. Se releyeron completas la spec y el plan; Task 14 no modifica comportamiento de producción.
+- Evidencia para el README: Node 24.19.0; `npm ci` instaló 364 paquetes; `npm run dev` expuso Express `200` en el puerto 3000 y Vite `200` en `localhost:5173`; `npm run build` generó shared, frontend y backend; `npm start` sirvió frontend y health `200` desde el mismo puerto.
+- API real: una partida local con semilla 1209 produjo `POST /api/games` 201, `GET /api/games/:id` 200, acción válida 200, acción incompatible 409, forma inválida 400, id ausente 404 y health 200. Los contratos, las 49 casillas y valores capturados se documentaron sin inventar estados; la secuencia documentada con `curl.exe` se repitió y confirmó 49 casillas, lectura del mismo id, movimiento a `(6, 1)`, un punto restante y health local.
+- Documentación creada: README, introducción, reglas, API, decisiones, investigación con fuentes oficiales, registro de IA y guion/checklist de defensa. La matriz del README enlaza diez áreas de 10 puntos con archivo, prueba o pantalla verificable.
+- Auditoría externa: la API pública de GitHub respondió 200 para el repositorio público `ObitoSage/Mercado-de-mareas`; la aplicación de Render respondió 200 y `/api/health` devolvió el commit desplegado `fc44df17a33042f7079518c53a6bfcdfdcb651f3`.
+- Diagnóstico de entorno: `npm.cmd` del sistema usa Node 22.14.0 aunque el `node` antepuesto sea 24. Se ejecutó `npm-cli.js` con Node 24 y se propagó su directorio a los procesos hijos. El primer E2E dentro del sandbox completó cuatro aserciones pero quedó esperando el cierre del servidor; la repetición fuera del sandbox terminó normalmente. No se modificó código para ocultar estas diferencias locales.
+- Gate final con Node 24.19.0: `npm ci` PASS (364 paquetes), lint PASS, typecheck de todos los proyectos PASS, 46 pruebas shared + 168 backend + 37 frontend PASS, tres builds PASS, 4 E2E Chromium locales PASS en 22.9 s y 4 E2E Chrome visibles contra `https://mercado-de-mareas.onrender.com` PASS en 16.5 s.
+- No se ejecutaron comandos Git de escritura. El commit final y segundo push continúan bajo control del usuario en Step 10.
 
 - [ ] **Step 10: Detenerse para revisión y segundo push**
 
