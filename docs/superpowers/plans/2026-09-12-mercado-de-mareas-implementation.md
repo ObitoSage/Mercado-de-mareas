@@ -1000,7 +1000,7 @@ Expected: PASS.
 - Implementación: portada con instrucciones completas, navegación por estado sin router, barra de ronda/marea/turno/puntos, paneles de ambos jugadores y regiones semánticas reservadas.
 - Verificación: test enfocado, typecheck frontend, lint raíz, build frontend y `git diff --check` PASS.
 
-- [ ] **Step 8: Detenerse para revisión y commit manual**
+- [x] **Step 8: Detenerse para revisión y commit manual**
 
 Mensaje sugerido: `feat: add game start instructions and status layout`.
 
@@ -1074,7 +1074,7 @@ Run: `npm run dev`. Abrir `http://localhost:5173`, iniciar partida, mover dos ve
 - Verificación: typecheck raíz, lint raíz, build raíz y `git diff --check` PASS.
 - Recorrido manual real: inicio, movimientos `(6,1)` y `(5,1)`, avance a ronda 2 con IA, carga de pescado, fin de turno y ronda 3; el estado y la bitácora confirmaron las respuestas JSON de la API.
 
-- [ ] **Step 9: Detenerse para revisión y commit manual**
+- [x] **Step 9: Detenerse para revisión y commit manual**
 
 Mensaje sugerido: `feat: render playable board and game controls`.
 
@@ -1154,7 +1154,7 @@ Run: `npm run dev`. Verificar inicio, instrucciones, movimiento, carga, venta, d
 - Verificación final: `npm run verify` PASS con 46 pruebas shared, 167 backend y 37 frontend; typecheck, lint y builds de los tres workspaces PASS. Consola del navegador sin warnings ni errores y revisión independiente final sin hallazgos críticos o importantes.
 - Partida manual completa PASS: error 409 y cierre, movimiento, carga, varios turnos de IA, mareas, reposiciones, venta con riqueza de 0 a 3, final en ronda 10, ambas riquezas, diez sucesos y regreso a inicio con `Jugar otra vez`.
 
-- [ ] **Step 9: Detenerse para revisión y commit manual**
+- [x] **Step 9: Detenerse para revisión y commit manual**
 
 Mensaje sugerido: `feat: complete game feedback and result experience`.
 
@@ -1173,7 +1173,7 @@ Mensaje sugerido: `feat: complete game feedback and result experience`.
 - Consumes: interfaz accesible y API real.
 - Produces: `npm run e2e`, `npm run e2e:headed` y soporte para `BASE_URL` publicada.
 
-- [ ] **Step 1: Configurar Playwright antes de escribir recorridos**
+- [x] **Step 1: Configurar Playwright antes de escribir recorridos**
 
 ```ts
 import { defineConfig, devices } from '@playwright/test';
@@ -1204,7 +1204,7 @@ export default defineConfig({
 
 Fijar scripts raíz: `e2e` usa `--project=chromium`; `e2e:headed` usa `--project=chrome --headed`.
 
-- [ ] **Step 2: Escribir E2E fallido de inicio y comunicación**
+- [x] **Step 2: Escribir E2E fallido de inicio y comunicación**
 
 ```ts
 test('starts a game through the real Express API', async ({ page }) => {
@@ -1220,29 +1220,40 @@ test('starts a game through the real Express API', async ({ page }) => {
 });
 ```
 
-- [ ] **Step 3: Escribir E2E de movimiento, carga y venta**
+- [x] **Step 3: Escribir E2E de movimiento, carga y venta**
 
 Desde la posición inicial: mover a `(6,1)` y `(5,1)`, cargar pescado, mover a `(5,0)` y `(6,0)`, vender pescado. Esperar cada respuesta POST, comprobar cambios de ronda y afirmar que las monedas aumentan. No usar `waitForTimeout`.
 
-- [ ] **Step 4: Escribir E2E de acción inválida**
+- [x] **Step 4: Escribir E2E de acción inválida**
 
 En el mercado inicial, pulsar `Cargar`; esperar `409`, comprobar el mensaje visible y confirmar que ronda, posición y puntos no cambiaron.
 
-- [ ] **Step 5: Escribir E2E de finalización**
+- [x] **Step 5: Escribir E2E de finalización**
 
 Iniciar una partida y pulsar `Terminar turno` una vez por ronda. Antes de cada click esperar que el botón esté habilitado; después verificar la siguiente ronda. Tras la décima respuesta, comprobar una pantalla con `Victoria`, `Derrota` o `Empate`, ambas riquezas y `Jugar otra vez`.
 
-- [ ] **Step 6: Ejecutar y estabilizar headless**
+- [x] **Step 6: Ejecutar y estabilizar headless**
 
 Run: `npx playwright install chromium && npm run e2e`
 
 Expected: tres archivos E2E PASS sin reintentos locales.
 
-- [ ] **Step 7: Ejecutar visualmente en Chrome**
+- [x] **Step 7: Ejecutar visualmente en Chrome**
 
 Run: `npm run e2e:headed`
 
 Expected: Chrome visible ejecuta el mismo conjunto con API real. Si Chrome no está instalado, instalarlo antes de la defensa; no cambiar la prueba a una simulación.
+
+**Registro de ejecución — 2026-09-15 (Task 12):**
+
+- Base verificada: commit manual conjunto de Tasks 9–11 `696fe14`; árbol limpio antes de iniciar. También se marcaron sus checkpoints manuales confirmados por el usuario.
+- Rojo de infraestructura: la primera ejecución enfocada falló con Node 22.14.0 y `EPERM` del sandbox; con Node 24.19.0 llegó al fallo esperado por ausencia de Chromium 1243. Se instaló `chromium` mediante Playwright y se repitió sin cambiar comportamiento de la aplicación.
+- Verde de recorridos: inicio mediante `POST /api/games`, tablero de 49 casillas, ronda, marea y marcadores; movimiento, carga y venta mediante cada `POST /actions`; rechazo 409 sin mutar ronda, posición ni puntos; final después de diez rondas con resultado, ambas riquezas y reinicio visible.
+- Ajuste mínimo de tooling: ESLint tipado no podía asociar la configuración y los E2E a un proyecto TypeScript. Se añadió un `tsconfig.json` raíz limitado a Playwright y se incorporó `tsc -p tsconfig.json` al typecheck raíz; strict permanece activo.
+- Diagnóstico de cierre: dentro del sandbox Playwright completaba las aserciones pero no podía cerrar el árbol del servidor. Fuera del sandbox, la configuración exacta aprobada `npm run build && npm start` terminó normalmente; no se conservó el cambio provisional al comando.
+- Revisión independiente: detectó que el inicio no afirmaba de forma explícita marea y marcadores. Se añadieron esas aserciones y se repitieron todas las verificaciones finales.
+- Verificación final con Node 24.19.0: `npm run typecheck` PASS, ESLint PASS, Chromium headless 4 PASS en 30.4 s y Chrome visible 4 PASS en 29.2 s, sin reintentos locales.
+- `git diff --check` PASS. No se usaron interceptaciones, esperas arbitrarias ni comandos Git de escritura; `BASE_URL` conserva soporte para ejecutar los mismos E2E contra el despliegue de una task posterior.
 
 - [ ] **Step 8: Detenerse para revisión y commit manual**
 

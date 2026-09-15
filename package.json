@@ -15,9 +15,9 @@
     "build": "npm run build -w @mercado/shared && npm run build -w @mercado/frontend && npm run build -w @mercado/backend",
     "start": "npm run start -w @mercado/backend",
     "lint": "eslint .",
-    "typecheck": "npm run build -w @mercado/shared && npm run typecheck -w @mercado/backend && npm run typecheck -w @mercado/frontend",
+    "typecheck": "npm run build -w @mercado/shared && npm run typecheck -w @mercado/backend && npm run typecheck -w @mercado/frontend && tsc -p tsconfig.json",
     "test": "npm run build -w @mercado/shared && npm run test -w @mercado/shared && npm run test -w @mercado/backend && npm run test -w @mercado/frontend",
-    "e2e": "playwright test",
+    "e2e": "playwright test --project=chromium",
     "e2e:headed": "playwright test --project=chrome --headed",
     "verify": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
