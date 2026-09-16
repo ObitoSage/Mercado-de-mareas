@@ -1,0 +1,397 @@
+{
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\package.json": {
+    "mtime": 1789273133.8312044,
+    "ast_hash": "09ed23cc2ffb3b28db5fac6fc79150e6",
+    "semantic_hash": "09ed23cc2ffb3b28db5fac6fc79150e6"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\src\\ai\\score.ts": {
+    "mtime": 1789399562.183629,
+    "ast_hash": "c07518958865704a34c3af290fafd8f5",
+    "semantic_hash": "c07518958865704a34c3af290fafd8f5"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\src\\ai\\strategy.ts": {
+    "mtime": 1789399565.801819,
+    "ast_hash": "9312b8c13f5e9cb5975ceb6a3c5bb47a",
+    "semantic_hash": "9312b8c13f5e9cb5975ceb6a3c5bb47a"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\src\\app.ts": {
+    "mtime": 1789417292.3767369,
+    "ast_hash": "fbc9f2d4166dd38dc713b6ecb3ba2f2e",
+    "semantic_hash": "fbc9f2d4166dd38dc713b6ecb3ba2f2e"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\src\\domain\\board.ts": {
+    "mtime": 1789274171.7369058,
+    "ast_hash": "9742fc52e0cdd4c4bbed0d4ed0727061",
+    "semantic_hash": "9742fc52e0cdd4c4bbed0d4ed0727061"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\src\\domain\\create-game.ts": {
+    "mtime": 1789274220.6112952,
+    "ast_hash": "92b085ce3092117492d90de4ac0b3224",
+    "semantic_hash": "92b085ce3092117492d90de4ac0b3224"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\src\\domain\\errors.ts": {
+    "mtime": 1789397772.4291,
+    "ast_hash": "c2db89a7361f558cdbc0b5afd3c8013f",
+    "semantic_hash": "c2db89a7361f558cdbc0b5afd3c8013f"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\src\\domain\\game-engine.ts": {
+    "mtime": 1789399682.0913026,
+    "ast_hash": "e70f610fd68bfe3a88dec595adfda6b0",
+    "semantic_hash": "e70f610fd68bfe3a88dec595adfda6b0"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\src\\domain\\market.ts": {
+    "mtime": 1789398896.587896,
+    "ast_hash": "51936b1f717e5986cc7365555162a738",
+    "semantic_hash": "51936b1f717e5986cc7365555162a738"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\src\\domain\\random.ts": {
+    "mtime": 1789274168.8090458,
+    "ast_hash": "25ae13afa2deae99b2026e056fc44054",
+    "semantic_hash": "25ae13afa2deae99b2026e056fc44054"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\src\\domain\\rules.ts": {
+    "mtime": 1789398902.1897914,
+    "ast_hash": "ec1f69548ef69f223572fadfac6021d7",
+    "semantic_hash": "ec1f69548ef69f223572fadfac6021d7"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\src\\domain\\turns.ts": {
+    "mtime": 1789398899.5075083,
+    "ast_hash": "4bd2b6f3f1deeabf09410b57988877bf",
+    "semantic_hash": "4bd2b6f3f1deeabf09410b57988877bf"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\src\\game-store.ts": {
+    "mtime": 1789400078.1176605,
+    "ast_hash": "e8a82bfdfc7e218c3c654807feb9b9d4",
+    "semantic_hash": "e8a82bfdfc7e218c3c654807feb9b9d4"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\src\\http\\game-routes.ts": {
+    "mtime": 1789437827.200814,
+    "ast_hash": "1802a831609c98faf80bacc0ef770c2a",
+    "semantic_hash": "1802a831609c98faf80bacc0ef770c2a"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\src\\http\\parse-action.ts": {
+    "mtime": 1789400262.9301758,
+    "ast_hash": "955039ca05fa25f90a4a3394bfb23a24",
+    "semantic_hash": "955039ca05fa25f90a4a3394bfb23a24"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\src\\server.ts": {
+    "mtime": 1789417295.9959116,
+    "ast_hash": "9d148aa35fa63b83885852c18ab3e057",
+    "semantic_hash": "9d148aa35fa63b83885852c18ab3e057"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\tests\\api.test.ts": {
+    "mtime": 1789453786.4338074,
+    "ast_hash": "b85b46b2faf76081da9ee006c69adf7d",
+    "semantic_hash": "b85b46b2faf76081da9ee006c69adf7d"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\tests\\create-game.test.ts": {
+    "mtime": 1789274263.6777766,
+    "ast_hash": "5895453ac19cba6ad574f444601a23d4",
+    "semantic_hash": "5895453ac19cba6ad574f444601a23d4"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\tests\\fixtures.ts": {
+    "mtime": 1789274292.289762,
+    "ast_hash": "eb746aac566cd66395f82a3e15489a15",
+    "semantic_hash": "eb746aac566cd66395f82a3e15489a15"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\tests\\game-engine.test.ts": {
+    "mtime": 1789399809.0714943,
+    "ast_hash": "cdc2be3489806d232a6593784fa58cf2",
+    "semantic_hash": "cdc2be3489806d232a6593784fa58cf2"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\tests\\game-store.test.ts": {
+    "mtime": 1789400057.1498845,
+    "ast_hash": "7fc86ee28c72183d97d9375826beac7e",
+    "semantic_hash": "7fc86ee28c72183d97d9375826beac7e"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\tests\\rules.test.ts": {
+    "mtime": 1789416835.5980551,
+    "ast_hash": "e3fa908813d573a54b5c2f8972f4c3e7",
+    "semantic_hash": "e3fa908813d573a54b5c2f8972f4c3e7"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\tests\\static-serving.test.ts": {
+    "mtime": 1789417234.288199,
+    "ast_hash": "00136714e62b03b911fc221fb538419a",
+    "semantic_hash": "00136714e62b03b911fc221fb538419a"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\tests\\strategy.test.ts": {
+    "mtime": 1789399477.7473457,
+    "ast_hash": "6a9f6b469818c944b98f697d91fa07b7",
+    "semantic_hash": "6a9f6b469818c944b98f697d91fa07b7"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\tests\\tsconfig.json": {
+    "mtime": 1789416833.0618837,
+    "ast_hash": "bd9a27e5d2225611cda79ecad9c34b2a",
+    "semantic_hash": "bd9a27e5d2225611cda79ecad9c34b2a"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\tests\\turns.test.ts": {
+    "mtime": 1789398984.444422,
+    "ast_hash": "a5f7466cf3dd0fe5cbd8bc267fb5b1d9",
+    "semantic_hash": "a5f7466cf3dd0fe5cbd8bc267fb5b1d9"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\backend\\tsconfig.json": {
+    "mtime": 1789273352.0095727,
+    "ast_hash": "53cae0821e2a3d16812c710127f36ada",
+    "semantic_hash": "53cae0821e2a3d16812c710127f36ada"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\package.json": {
+    "mtime": 1789273125.0491335,
+    "ast_hash": "2b8b1f1c07efc9de97112ba87c2cb324",
+    "semantic_hash": "2b8b1f1c07efc9de97112ba87c2cb324"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\src\\App.tsx": {
+    "mtime": 1789437426.2359548,
+    "ast_hash": "85b3940380cd697f64918aa044493b82",
+    "semantic_hash": "85b3940380cd697f64918aa044493b82"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\src\\api\\game-api.ts": {
+    "mtime": 1789417738.2731342,
+    "ast_hash": "dbb0686bac485983c529160c623ec481",
+    "semantic_hash": "dbb0686bac485983c529160c623ec481"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\src\\components\\ActionPanel.tsx": {
+    "mtime": 1789486313.1635067,
+    "ast_hash": "e88cab47af316ed8f50969167423fa8f",
+    "semantic_hash": "e88cab47af316ed8f50969167423fa8f"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\src\\components\\ErrorBanner.tsx": {
+    "mtime": 1789437423.51894,
+    "ast_hash": "cd133b9fef39e5f986b3d46a6d59bf55",
+    "semantic_hash": "cd133b9fef39e5f986b3d46a6d59bf55"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\src\\components\\EventLog.tsx": {
+    "mtime": 1789435741.0426364,
+    "ast_hash": "2095fd2ca2773f6ecc4dc4363a77d1b6",
+    "semantic_hash": "2095fd2ca2773f6ecc4dc4363a77d1b6"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\src\\components\\GameBoard.tsx": {
+    "mtime": 1789488038.9456086,
+    "ast_hash": "fbd37cc67f099c2baa4180ed0a1f603e",
+    "semantic_hash": "fbd37cc67f099c2baa4180ed0a1f603e"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\src\\components\\PlayerPanel.tsx": {
+    "mtime": 1789435504.9087062,
+    "ast_hash": "a707e099157f3f009bdb5edcfbd7a1c8",
+    "semantic_hash": "a707e099157f3f009bdb5edcfbd7a1c8"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\src\\components\\StatusBar.tsx": {
+    "mtime": 1789435501.5065968,
+    "ast_hash": "bd8c1559659b5ebb108cb88f3fd213ba",
+    "semantic_hash": "bd8c1559659b5ebb108cb88f3fd213ba"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\src\\hooks\\useGame.ts": {
+    "mtime": 1789437830.71477,
+    "ast_hash": "878d4528f87867cb74cbe8487ec807f9",
+    "semantic_hash": "878d4528f87867cb74cbe8487ec807f9"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\src\\main.tsx": {
+    "mtime": 1789435747.9244118,
+    "ast_hash": "11cdeda82e6a45d0ea9999548e802f35",
+    "semantic_hash": "11cdeda82e6a45d0ea9999548e802f35"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\src\\screens\\GameScreen.tsx": {
+    "mtime": 1789437489.325829,
+    "ast_hash": "554e19faacfe55b208f04fa62e49d55e",
+    "semantic_hash": "554e19faacfe55b208f04fa62e49d55e"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\src\\screens\\HomeScreen.tsx": {
+    "mtime": 1789437429.071217,
+    "ast_hash": "40135e1146c4d45c33e7f3f2accadfc0",
+    "semantic_hash": "40135e1146c4d45c33e7f3f2accadfc0"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\src\\screens\\ResultScreen.tsx": {
+    "mtime": 1789436583.2134874,
+    "ast_hash": "dbce1dfc630c5a8b326b9c44a3d920e8",
+    "semantic_hash": "dbce1dfc630c5a8b326b9c44a3d920e8"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\tests\\App.test.tsx": {
+    "mtime": 1789435315.344285,
+    "ast_hash": "b6465640d4fe33bc0518f0d2a94831e5",
+    "semantic_hash": "b6465640d4fe33bc0518f0d2a94831e5"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\tests\\GameScreen.test.tsx": {
+    "mtime": 1789487141.433498,
+    "ast_hash": "7ec350eafa25f79c48b622d2b4a28ffb",
+    "semantic_hash": "7ec350eafa25f79c48b622d2b4a28ffb"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\tests\\feedback.test.tsx": {
+    "mtime": 1789437362.087531,
+    "ast_hash": "5bb49ace8656e12b40103becca8363b6",
+    "semantic_hash": "5bb49ace8656e12b40103becca8363b6"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\tests\\fixtures.ts": {
+    "mtime": 1789437921.2709477,
+    "ast_hash": "6f7f7840ca38ff60a22e2361df707217",
+    "semantic_hash": "6f7f7840ca38ff60a22e2361df707217"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\tests\\game-api.test.ts": {
+    "mtime": 1789417653.6174028,
+    "ast_hash": "672cc6016ecc7d2ef98db1d1d26786f0",
+    "semantic_hash": "672cc6016ecc7d2ef98db1d1d26786f0"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\tests\\setup.ts": {
+    "mtime": 1789417647.870215,
+    "ast_hash": "6d094cffd5c9d58842cb1bf2e77a436c",
+    "semantic_hash": "6d094cffd5c9d58842cb1bf2e77a436c"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\tests\\useGame.test.tsx": {
+    "mtime": 1789437788.015746,
+    "ast_hash": "53711af858939c1e81d3b234c2868f8a",
+    "semantic_hash": "53711af858939c1e81d3b234c2868f8a"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\tsconfig.json": {
+    "mtime": 1789418062.4135566,
+    "ast_hash": "59de93e360a3e7dabac4c51b11334fd9",
+    "semantic_hash": "59de93e360a3e7dabac4c51b11334fd9"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\vite.config.ts": {
+    "mtime": 1789417643.0669425,
+    "ast_hash": "db312b2a138a994baa7bfd4569287877",
+    "semantic_hash": "db312b2a138a994baa7bfd4569287877"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\eslint.config.js": {
+    "mtime": 1789439546.3505626,
+    "ast_hash": "22e547ae9f5309a8d3f32a3e53b19a52",
+    "semantic_hash": "22e547ae9f5309a8d3f32a3e53b19a52"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\package.json": {
+    "mtime": 1789455532.8199728,
+    "ast_hash": "b614358d8b609da0f549f2b2e0516c69",
+    "semantic_hash": "b614358d8b609da0f549f2b2e0516c69"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\packages\\shared\\package.json": {
+    "mtime": 1789273061.8829226,
+    "ast_hash": "ba680961cc6e91510d8844a5bd1b4fd5",
+    "semantic_hash": "ba680961cc6e91510d8844a5bd1b4fd5"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\packages\\shared\\src\\api.ts": {
+    "mtime": 1789273511.0153055,
+    "ast_hash": "01a8751941bfb6191b034ea662325b27",
+    "semantic_hash": "01a8751941bfb6191b034ea662325b27"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\packages\\shared\\src\\game.test.ts": {
+    "mtime": 1789273438.8616693,
+    "ast_hash": "7de3360b9f74b7c35af10ff1d9a628f1",
+    "semantic_hash": "7de3360b9f74b7c35af10ff1d9a628f1"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\packages\\shared\\src\\game.ts": {
+    "mtime": 1789273508.331534,
+    "ast_hash": "7caed2c60e43de88b5f37c2b5abb17dc",
+    "semantic_hash": "7caed2c60e43de88b5f37c2b5abb17dc"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\packages\\shared\\src\\index.ts": {
+    "mtime": 1789273513.5018077,
+    "ast_hash": "05b4db665e9adec6ed4776950ccf4188",
+    "semantic_hash": "05b4db665e9adec6ed4776950ccf4188"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\packages\\shared\\tsconfig.json": {
+    "mtime": 1789273345.5294795,
+    "ast_hash": "fcbe920faec2d6221f552e2e691bc82d",
+    "semantic_hash": "fcbe920faec2d6221f552e2e691bc82d"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\playwright.config.ts": {
+    "mtime": 1789439821.3667696,
+    "ast_hash": "47cd48d6dd8264338d7e361ae463e312",
+    "semantic_hash": "47cd48d6dd8264338d7e361ae463e312"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\tests\\e2e\\game-flow.spec.ts": {
+    "mtime": 1789488083.083949,
+    "ast_hash": "954b07ba8f085f49f38684be813e7c41",
+    "semantic_hash": "954b07ba8f085f49f38684be813e7c41"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\tests\\e2e\\invalid-action.spec.ts": {
+    "mtime": 1789439331.1165586,
+    "ast_hash": "4e285ae464ef632e3e30a72222383fb8",
+    "semantic_hash": "4e285ae464ef632e3e30a72222383fb8"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\tests\\e2e\\result.spec.ts": {
+    "mtime": 1789439334.2425349,
+    "ast_hash": "1ed6884848c1fd9ed60c846978308fd7",
+    "semantic_hash": "1ed6884848c1fd9ed60c846978308fd7"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\tsconfig.base.json": {
+    "mtime": 1789273338.620547,
+    "ast_hash": "a3936ddfdd55e095b2320321d657aece",
+    "semantic_hash": "a3936ddfdd55e095b2320321d657aece"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\tsconfig.json": {
+    "mtime": 1789440236.9490664,
+    "ast_hash": "fcc6cd5a2bded5795b17327dafafb505",
+    "semantic_hash": "fcc6cd5a2bded5795b17327dafafb505"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\.github\\workflows\\deploy.yml": {
+    "mtime": 1789453850.1076066,
+    "ast_hash": "7b93e83599184ad1f38629cb53929345",
+    "semantic_hash": "7b93e83599184ad1f38629cb53929345"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\.github\\workflows\\e2e.yml": {
+    "mtime": 1789453847.2227976,
+    "ast_hash": "fc26b6f8305f0c1dd5f5750ea3b27954",
+    "semantic_hash": "fc26b6f8305f0c1dd5f5750ea3b27954"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\.github\\workflows\\lint.yml": {
+    "mtime": 1789453844.5722313,
+    "ast_hash": "e0293833da94a215edf25da84f76cfa5",
+    "semantic_hash": "e0293833da94a215edf25da84f76cfa5"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\README.md": {
+    "mtime": 1789457857.5770135,
+    "ast_hash": "853bdd071b65b682bf52fbdfdd8a7c11",
+    "semantic_hash": "853bdd071b65b682bf52fbdfdd8a7c11"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\apps\\frontend\\index.html": {
+    "mtime": 1789417300.0747535,
+    "ast_hash": "37b4db312b57538e599b0aca09345206",
+    "semantic_hash": "37b4db312b57538e599b0aca09345206"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\docs\\api.md": {
+    "mtime": 1789458745.8504565,
+    "ast_hash": "6158ca4c2e2c686e60da563470f5268c",
+    "semantic_hash": "6158ca4c2e2c686e60da563470f5268c"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\docs\\decisiones.md": {
+    "mtime": 1789458113.5850217,
+    "ast_hash": "2e2755a51202b727900350621a3d5766",
+    "semantic_hash": "2e2755a51202b727900350621a3d5766"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\docs\\defensa.md": {
+    "mtime": 1789458123.760101,
+    "ast_hash": "ceb0e226555c5d1ec5d1f4047ff64bcd",
+    "semantic_hash": "ceb0e226555c5d1ec5d1f4047ff64bcd"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\docs\\introduccion.md": {
+    "mtime": 1789457860.6935089,
+    "ast_hash": "b869fb582fd275690b308530c503af8a",
+    "semantic_hash": "b869fb582fd275690b308530c503af8a"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\docs\\investigacion.md": {
+    "mtime": 1789458117.2897758,
+    "ast_hash": "0e023434ebf44635d7f611d0282f29f7",
+    "semantic_hash": "0e023434ebf44635d7f611d0282f29f7"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\docs\\reglas.md": {
+    "mtime": 1789457863.4565568,
+    "ast_hash": "c79229ef1a38c6064e89616339a409fe",
+    "semantic_hash": "c79229ef1a38c6064e89616339a409fe"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\docs\\superpowers\\plans\\2026-09-12-mercado-de-mareas-implementation.md": {
+    "mtime": 1789458804.5767455,
+    "ast_hash": "99c44d251a9c036533245ca8bdb0d56d",
+    "semantic_hash": "99c44d251a9c036533245ca8bdb0d56d"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\docs\\superpowers\\specs\\2026-09-12-mercado-de-mareas-design.md": {
+    "mtime": 1789271891.5534742,
+    "ast_hash": "d96892ef6d64e06c1e5119f7f5718603",
+    "semantic_hash": "d96892ef6d64e06c1e5119f7f5718603"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\docs\\uso-ia.md": {
+    "mtime": 1789458120.841974,
+    "ast_hash": "87ec02760230ce0f665ce12787265068",
+    "semantic_hash": "87ec02760230ce0f665ce12787265068"
+  },
+  "C:\\Users\\DELL\\Documents\\Universidad\\Mercado-de-mareas\\render.yaml": {
+    "mtime": 1789453852.9735527,
+    "ast_hash": "8df15ccaa520420f34299adc1e964ab9",
+    "semantic_hash": "8df15ccaa520420f34299adc1e964ab9"
+  }
+}

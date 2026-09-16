@@ -22,7 +22,7 @@ export default function HomeScreen({ canRetry, error, isLoading, onDismissError,
     <main className="home-shell">
       <section className="home-hero" aria-labelledby="game-title">
         <p className="eyebrow">Comercio por turnos · 7 × 7</p>
-        <h1 id="game-title">Mercado de Mareas</h1>
+        <h1 id="game-title">market de Mareas</h1>
         <p className="home-summary">
           Navega entre puertos, comercia con tres mercancías y supera la riqueza del rival
           antes de que cambie la última marea.
